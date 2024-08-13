@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Círculo Militar de Alegrete</title>
+    <link rel="stylesheet" href="\css\styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="\images\logo.png" alt="Logo do Círculo Militar de Alegrete">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Agenda</a></li>
+                    <li><a href="#">Institucional</a></li>
+                    <li><a href="#">Horários</a></li>
+                    <li><a href="#">Fale Conosco</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="button-associe-se">Associe-se</a>
+        </div>
+    </header>
+
+    <div class="rs-flag-colors"></div>
+
+    <div class="spacer"></div>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="\images\imagem1.jpg" alt="Imagem 1"></div>
+            <div class="swiper-slide"><img src="\images\imagem2.jpg" alt="Imagem 2"></div>
+            <div class="swiper-slide"><img src="\images\imagem3.jpg" alt="Imagem 3"></div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <div class="container">
+        <section class="hero-section">
+            <h1>Bem-vindo ao Círculo Militar de Alegrete</h1>
+            <p>Um lugar de tradição, amizade e respeito.</p>
+        </section>
+
+        <section class="about-section">
+            <h2>Sobre Nós</h2>
+            <p>O Círculo Militar de Alegrete é uma instituição que preza pela tradição e pelos valores que unem nossos membros. Oferecemos uma ampla gama de atividades sociais e esportivas para todas as idades.</p>
+        </section>
+
+        <section class="services-section">
+            <h2>Nossos Serviços</h2>
+            <p>Entre os serviços que oferecemos estão espaços para eventos, atividades recreativas e muito mais. Conheça tudo que o Círculo tem a oferecer!</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Círculo Militar de Alegrete. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper-container', {
+            loop: true,
+            effect: 'fade', // Efeito fade
+            fadeEffect: {
+                crossFade: true,
+            },
+            speed: 1300, // Velocidade da transição (1.3 segundo)
+            autoplay: {
+                delay: 4000, // Autoplay a cada 4 segundos
+                disableOnInteraction: false, // Continua mesmo após interação
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+    
+</body>
+</html>
