@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head th:replace="~{fragments/head-fragment :: head('Fale Conosco - CMA')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header-fragment :: header('Fale Conosco')}"></header>
+
+    <div class="fale-conosco-container">
+        <!-- Formulário de contato à esquerda -->
+        <div class="fale-conosco-form">
+            <h1>Fale Conosco</h1>
+            <form action="/enviarMensagem" method="post">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" required>
+                
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
+    
+                
+                <label for="assunto">Assunto</label>
+                <input type="text" id="assunto" name="assunto" required>
+                
+                <label for="mensagem">Mensagem</label>
+                <textarea type="text" id="mensagem" name="mensagem" rows="5" required></textarea>
+                
+                <button type="submit" class="button-enviar-aplicacao"><span>Enviar Mensagem</span></button>
+
+                <p>O Serviço de Atendimento ao Associado (SAAS) é o meio de contato dos associados com o clube. <br>
+                    A área é responsável por ouvir os associados, receber e encaminhar as demandas, sugestões e reclamações recebidas.</p>
+            </form>
+        </div>
+
+        <!-- Texto e imagem de fundo à direita -->
+        <div class="fale-conosco-info">
+            <div class="info-text">
+                <h2>Entre em Contato</h2>
+                <p>Endereço: Av. Marechal Deodoro, 1234 - Centro</p>
+                <p>Telefone: (55) 9999-9999</p>
+                <p>Email: contato@clubemilitaralegrete.com</p>
+                <p>Horário de Atendimento: Segunda a Sexta, das 8h às 18h</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Footer da página -->
+        <div th:replace="fragments/footer-fragment :: footer"></div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head th:replace="~{fragments/head-fragment :: head('Eventos - CMA')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header-fragment :: header('Eventos')}"></header>
+    
+    <section class="eventos-section">
+        <div class="evento">
+            <div class="evento-info">
+                <h3>Torneio de Vôlei de Areia</h3>
+                <p>Data: 12 de Outubro de 2024</p>
+                <p>Horário: A partir das 09:00</p>
+                <p>Inscrições abertas até: 5 de Outubro de 2024</p>
+                <p>Participe do Torneio de Vôlei organizado pelo Círculo Militar de Alegrete! Reúna sua equipe e venha disputar partidas emocionantes em um ambiente de camaradagem e espírito esportivo.</p>
+            </div>
+            <div class="evento-image">
+                <img src="/images/evento1.jpeg" alt="Evento 1">
+            </div>
+        </div>
+        
+        <div class="evento">
+            <div class="evento-info">
+                <h3>Torneio de Truco</h3>
+                <p>Data: 15 de Novembro de 2024</p>
+                <p>Horário: A partir das 14:00</p>
+                <p>Inscrições abertas até: 10 de Novembro de 2024</p>
+                <p>Prepare suas cartas e sua parceira de jogo para o Torneio de Truco do Círculo Militar de Alegrete! Com uma mistura de estratégia, sorte e muita diversão, essa competição será o ponto de encontro para os amantes do tradicional truco gaúcho.</p>
+            </div>
+            <div class="evento-image">
+                <img src="/images/evento2.png" alt="Evento 2">
+            </div>
+        </div>
+
+        <!-- Adiciona mais eventos conforme necessário -->
+    </section>
+
+    <footer th:replace="~{fragments/footer-fragment :: footer}"></footer>
+</body>
+
+</html>

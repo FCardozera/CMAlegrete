@@ -1,0 +1,16 @@
+<footer th:fragment="footer">
+    <div class="footer-container">
+        <!-- Logo à esquerda -->
+        <a class="grow" href="/">
+            <img src="/images/logo.png" alt="Logo" class="footer-logo" />
+        </a>
+
+        <p>&copy; 2024 Círculo Militar de Alegrete. Todos os direitos reservados.</p>
+
+        <!-- Imagens à direita -->
+        <div class="footer-social-icons">
+            <a th:replace="~{fragments/footer/icon-link :: icon-link('images/instagram.png', 'Instagram', '#')}"></a>
+            <a th:replace="~{fragments/footer/icon-link :: icon-link('images/facebook.png', 'Facebook', '#')}"></a>
+        </div>
+    </div>
+</footer>
