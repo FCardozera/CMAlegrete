@@ -527,7 +527,7 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../images/paraiso.jpg'); /* Substitua com o caminho da sua imagem */
+    background-image: url('../images/fachada2.jpg'); /* Substitua com o caminho da sua imagem */
     background-size: cover;
     background-position: center;
     filter: grayscale(100%); /* Preto e branco apenas na imagem de fundo */
@@ -583,7 +583,7 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../images/paraiso.jpg'); /* Substitua com o caminho da sua imagem */
+    background-image: url('../images/fachada1.jpg'); /* Substitua com o caminho da sua imagem */
     background-size: cover;
     background-position: center;
     filter: grayscale(100%); /* Preto e branco apenas na imagem de fundo */
