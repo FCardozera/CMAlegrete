@@ -39,7 +39,7 @@ public class MembershipController {
 
     @PostMapping
     public ResponseEntity<Object> sendMembershipRequest(@RequestBody MemberRegisterRequest request) {
-        return membershipService.sendEmailRequest(request);
+        return membershipService.sendMembershipRequest(request);
     }
     
 }

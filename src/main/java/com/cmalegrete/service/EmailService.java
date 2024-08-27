@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -27,9 +26,11 @@ public class EmailService {
 
             helper.setTo(destinatario);
             helper.setSubject(assunto);
+
+            htmlMsg += "<img src='cid:logoImage' alt='Logo do Clube Militar de Alegrete' style='height:270px;' />";
+
             helper.setText(htmlMsg, true);
 
-            // Adicionando a imagem da logo como recurso embutido
             ClassPathResource logo = new ClassPathResource("static/images/logo.png");
             helper.addInline("logoImage", logo);
 
