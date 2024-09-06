@@ -46,7 +46,9 @@ function enviarAplicacao(event) {
     let email = document.getElementById("email").value;
     let name = document.getElementById("name").value;
     let cpf = document.getElementById("cpf").value;
+    let rg = document.getElementById("rg").value;
     let phoneNumber = document.getElementById("phoneNumber").value;
+    let address = document.getElementById("address").value;
     let militaryOrganization = document.getElementById("militaryOrganization").value;
     cpf = cpf.replace(/\D/g, "");
     phoneNumber = phoneNumber.replace(/\D/g, "");
@@ -54,6 +56,7 @@ function enviarAplicacao(event) {
     if (
         name === "" ||
         cpf === "" ||
+        rg === "" ||
         email === "" ||
         phoneNumber === ""
     ) {
@@ -68,6 +71,11 @@ function enviarAplicacao(event) {
 
     if (cpf.length !== 11) {
         alert("O campo de cpf deve conter 11 dígitos.");
+        return false;
+    }
+
+    if (rg.length !== 10) {
+        alert("O campo de cpf deve conter 10 dígitos.");
         return false;
     }
 
@@ -91,7 +99,9 @@ function enviarAplicacao(event) {
         email: email,
         name: name,
         cpf: cpf,
+        rg: rg,
         phoneNumber: phoneNumber,
+        address: address,
         militaryOrganization: militaryOrganization,
     };
 
@@ -104,12 +114,8 @@ function enviarAplicacao(event) {
     })
         .then((response) => {
             if (response.ok) {
-                alert(name + " sua aplicação foi remetida com sucesso!" + "\n" + "Enviado para: " + email);
+                alert("Sua aplicação foi remetida com sucesso!" + "\n" + "E-mail enviado para: " + email);
                 window.location.href = "/";
-            } else {
-                response.text().then(data => {
-                    senhaError.textContent = data;
-                });
             }
         })
         .catch((error) => {

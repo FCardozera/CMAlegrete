@@ -32,8 +32,9 @@ public abstract class UtilService extends HandlerExceptionUtil {
     }
 
     public void verifyAuthorization(Authentication authentication, UUID id) {
-        if (!userIsSameOrAdmin(authentication, id)){
-            throw new UnauthorizedUserException(UNAUTHORIZED_ACESS_ATTEMPT_DOTS + ((UserEntity) authentication.getPrincipal()).getId());
+        if (!userIsSameOrAdmin(authentication, id)) {
+            throw new UnauthorizedUserException(
+                    UNAUTHORIZED_ACESS_ATTEMPT_DOTS + ((UserEntity) authentication.getPrincipal()).getId());
         }
     }
 
@@ -65,6 +66,11 @@ public abstract class UtilService extends HandlerExceptionUtil {
             password.append(ALPHABET.charAt(index));
         }
         return password.toString();
+    }
+
+    public static String formatarCpf(String cpf) {
+        cpf = cpf.replaceAll("[^0-9]", "");
+        return cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
     }
 
 }

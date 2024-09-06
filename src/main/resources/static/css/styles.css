@@ -103,7 +103,8 @@ header {
 
 /* Estilo do link ativo (sem movimento) */
 .nav-links a.active {
-    color: #ff0000; /* cor do texto ao passar o mouse */
+    color: #ff0000;
+    /* cor do texto ao passar o mouse */
 }
 
 .nav-links a.active::before,
@@ -222,12 +223,20 @@ header {
 }
 
 .logo-register {
-    text-align: center;
-    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
 }
 
 .logo-register img {
-    height: 300px;
+    height: 150px;
+}
+
+.logo-register h2 {
+    font-size: 24px;
+    text-align: center;
+    color: #ffffff;
 }
 
 .register-container {
@@ -236,12 +245,6 @@ header {
     width: 45%;
     padding-bottom: 100px;
     color: #fff;
-}
-
-.register-container h2 {
-    margin-top: 0;
-    text-align: center;
-    color: #ffffff;
 }
 
 .form-associe {
@@ -259,7 +262,7 @@ header {
     margin-bottom: 5px;
 }
 
-.form-group input {
+.form-group input, select {
     font-family: 'Futura Std', sans-serif;
     width: 100%;
     padding: 10px;
@@ -267,6 +270,7 @@ header {
     /* Campos de preenchimento arredondados */
     border: 1px solid #ccc;
     font-size: 16px;
+    appearance: none;
 }
 
 .form-associe p {
@@ -420,10 +424,10 @@ footer {
     margin-right: 100px;
 }
 
-.fale-conosco-form input[type="text"], 
-.fale-conosco-form input[type="email"], 
-.fale-conosco-form input[type="tel"], 
-.fale-conosco-form input[type="submit"], 
+.fale-conosco-form input[type="text"],
+.fale-conosco-form input[type="email"],
+.fale-conosco-form input[type="tel"],
+.fale-conosco-form input[type="submit"],
 .fale-conosco-form textarea {
     font-family: 'Futura Std', sans-serif;
     width: 100%;
@@ -446,7 +450,8 @@ footer {
     align-items: center;
     background-size: cover;
     background-position: center;
-    overflow: hidden; /* Garante que nada ultrapasse a área */
+    overflow: hidden;
+    /* Garante que nada ultrapasse a área */
 }
 
 /* Pseudo-elemento para aplicar opacidade e preto e branco apenas na imagem */
@@ -457,21 +462,26 @@ footer {
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: url('../images/banner-fale-conosco.jpg'); /* Imagem de fundo */
+    background-image: url('../images/banner-fale-conosco.jpg');
+    /* Imagem de fundo */
     background-size: cover;
     background-position: center;
-    opacity: 0.2; /* Opacidade baixa */
-    filter: grayscale(100%); /* Preto e branco */
+    opacity: 0.2;
+    /* Opacidade baixa */
+    filter: grayscale(100%);
+    /* Preto e branco */
     z-index: 0;
 }
 
 /* Texto */
 .info-text {
     position: relative;
-    z-index: 1; /* Coloca o texto acima da imagem */
+    z-index: 1;
+    /* Coloca o texto acima da imagem */
     color: #002060;
     text-align: center;
-    padding: 20px; /* Ajusta para garantir espaço ao redor */
+    padding: 20px;
+    /* Ajusta para garantir espaço ao redor */
 }
 
 .info-text h2 {
@@ -498,7 +508,7 @@ footer {
     text-align: center;
     align-content: center;
     z-index: 2;
-    }
+}
 
 .horarios-content h1 {
     font-size: 36px;
@@ -526,12 +536,16 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../images/fachada2.jpg'); /* Substitua com o caminho da sua imagem */
+    background-image: url('../images/fachada2.jpg');
+    /* Substitua com o caminho da sua imagem */
     background-size: cover;
     background-position: center;
-    filter: grayscale(100%); /* Preto e branco apenas na imagem de fundo */
-    opacity: 0.3; /* Baixa opacidade para a imagem de fundo */
-    z-index: 1; /* Fica atrás do conteúdo */
+    filter: grayscale(100%);
+    /* Preto e branco apenas na imagem de fundo */
+    opacity: 0.3;
+    /* Baixa opacidade para a imagem de fundo */
+    z-index: 1;
+    /* Fica atrás do conteúdo */
 }
 
 /* Imagem de fundo preto e branco */
@@ -560,7 +574,8 @@ footer {
     color: #002060;
     width: 60%;
     text-align: center;
-    z-index: 2; /* Garante que o conteúdo esteja acima da imagem de fundo */
+    z-index: 2;
+    /* Garante que o conteúdo esteja acima da imagem de fundo */
 }
 
 .reservas-content h1 {
@@ -608,7 +623,7 @@ footer {
     background-position: center;
     filter: grayscale(100%);
     opacity: 0.3;
-    z-index: -1; 
+    z-index: -1;
 }
 
 .evento {
@@ -644,12 +659,15 @@ footer {
 }
 
 .evento-image img {
-    max-width: 100%; /* Garante que a imagem não ultrapasse o espaço */
-    max-height: 300px; /* Limita a altura máxima das imagens */
+    max-width: 100%;
+    /* Garante que a imagem não ultrapasse o espaço */
+    max-height: 300px;
+    /* Limita a altura máxima das imagens */
     width: auto;
     height: auto;
     border-radius: 8px;
-    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorção */
+    object-fit: cover;
+    /* Garante que a imagem preencha o espaço sem distorção */
 }
 
 /* Estilos gerais */
@@ -672,7 +690,7 @@ footer {
     background-position: center;
     filter: grayscale(100%);
     opacity: 0.3;
-    z-index: -1; 
+    z-index: -1;
 }
 
 /* Wrapper para alinhar as duas colunas */
@@ -693,21 +711,25 @@ footer {
 .institucional-info {
     max-width: 50%;
     text-align: left;
-    color: #002060; /* Cor do texto da mesma cor do header */
+    color: #002060;
+    /* Cor do texto da mesma cor do header */
 }
 
 .institucional-info h2 {
     font-size: 28px;
-    color: #002060; /* Mantém a cor do header */
+    color: #002060;
+    /* Mantém a cor do header */
     margin-bottom: 15px;
 }
 
 .institucional-info p {
     font-size: 18px;
     line-height: 1.6;
-    color: #002060; /* Mesma cor do header */
+    color: #002060;
+    /* Mesma cor do header */
     margin-bottom: 30px;
 }
+
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
     .content-wrapper {
@@ -723,4 +745,3 @@ footer {
         max-width: 100%;
     }
 }
-

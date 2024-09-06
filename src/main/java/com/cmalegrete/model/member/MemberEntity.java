@@ -33,6 +33,12 @@ public class MemberEntity extends UserEntity {
     @Column(nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false)
+    private String rg;
+
+    @Column(nullable = false)
+    private String address;
+
     public MemberEntity(MemberRegisterRequest request) {
         super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, UserStatusEnum.PENDING);
 
@@ -42,6 +48,8 @@ public class MemberEntity extends UserEntity {
 
         this.phoneNumber = request.getPhoneNumber();
         this.militaryOrganization = request.getMilitaryOrganization();
+        this.rg = request.getMilitaryOrganization();
+        this.address = request.getMilitaryOrganization();
     }
 
     public MemberEntity(MemberRegisterRequest request, UserStatusEnum status) {

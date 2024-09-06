@@ -15,7 +15,10 @@ public class MemberRegisterRequest extends RequestEmail {
     
     private String name;
     private String cpf;
+    private String rg;
     private String phoneNumber;
+    private String address;
     private String militaryOrganization;
+
 
 }
