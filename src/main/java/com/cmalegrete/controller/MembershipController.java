@@ -12,6 +12,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
 import com.cmalegrete.service.MembershipService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,7 +40,7 @@ public class MembershipController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> sendMembershipRequest(@RequestBody MemberRegisterRequest request) {
+    public ResponseEntity<Object> sendMembershipRequest(@Valid @RequestBody MemberRegisterRequest request) {
         return membershipService.sendMembershipRequest(request);
     }
     
