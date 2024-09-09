@@ -5,6 +5,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
+import com.cmalegrete.service.util.UtilService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,24 +21,26 @@ public class EmailSendService {
     @Value("${spring.mail.username}")
     private String membershipApprovalEmailAddress;
 
-    public void sendConfirmationEmailToUser(MemberRegisterRequest request, String caminhoContrato) {
+    @Async
+    public void sendConfirmationEmailToUser(MemberRegisterRequest request, byte[] contratoBytes) {
         String htmlMemberMsg = generateMemberConfirmationMessage(request);
 
         emailService.enviarEmailComAnexo(
             request.getEmail(),
             "Confirmação de Envio de Aplicação",
             htmlMemberMsg,
-            caminhoContrato,
-            "contrato_" + request.getName() + ".pdf"
+            contratoBytes,
+            "contrato_" + request.getName().toLowerCase() + ".pdf"
         );
     }
 
+    @Async
     public void sendAlertEmailToTeam(MemberRegisterRequest request) {
         String htmlRequestAlertMsg = generateAlertMessageForTeam(request);
 
         emailService.enviarEmailTexto(
             membershipApprovalEmailAddress,
-            "Requerimento de Associação - " + request.getName(),
+            "Requerimento de Associação - " + UtilService.toCapitalize(request.getName()),
             htmlRequestAlertMsg
         );
     }
@@ -47,7 +50,7 @@ public class EmailSendService {
 
         msg.append("<p>Equipe do Círculo Militar de Alegrete,</p>")
             .append("<p>Foi recebido um novo requerimento de associação! Abaixo seguem os dados do requerente:</p>")
-            .append("<p><strong>Nome Completo:</strong> ").append(request.getName()).append("<br>")
+            .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(request.getName())).append("<br>")
             .append("<strong>CPF:</strong> ").append(request.getCpf()).append("<br>")
             .append("<strong>E-mail:</strong> ").append(request.getEmail()).append("<br>")
             .append("<strong>Telefone:</strong> ").append(request.getPhoneNumber()).append("<br>");
@@ -66,7 +69,7 @@ public class EmailSendService {
 
         msg.append("<p>Prezado(a) ").append(request.getName()).append(",</p>")
             .append("<p>Estamos felizes em informar que sua aplicação foi enviada com sucesso! Abaixo estão os detalhes fornecidos:</p>")
-            .append("<p><strong>Nome Completo:</strong> ").append(request.getName()).append("<br>")
+            .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(request.getName())).append("<br>")
             .append("<strong>CPF:</strong> ").append(request.getCpf()).append("<br>")
             .append("<strong>E-mail:</strong> ").append(request.getEmail()).append("<br>")
             .append("<strong>Telefone:</strong> ").append(request.getPhoneNumber()).append("<br>");

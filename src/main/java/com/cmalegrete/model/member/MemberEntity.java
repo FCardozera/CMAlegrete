@@ -9,7 +9,6 @@ import com.cmalegrete.exception.generic.UpdateException;
 import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.model.user.UserRoleEnum;
 import com.cmalegrete.model.user.UserStatusEnum;
-import com.cmalegrete.service.util.UtilService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,8 +47,8 @@ public class MemberEntity extends UserEntity {
 
         this.phoneNumber = request.getPhoneNumber();
         this.militaryOrganization = request.getMilitaryOrganization();
-        this.rg = request.getMilitaryOrganization();
-        this.address = request.getMilitaryOrganization();
+        this.rg = request.getRg();
+        this.address = request.getAddress();
     }
 
     public MemberEntity(MemberRegisterRequest request, UserStatusEnum status) {
