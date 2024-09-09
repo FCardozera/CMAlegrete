@@ -1,6 +1,5 @@
 package com.cmalegrete.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +16,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,11 +38,11 @@ public class MembershipService extends UtilService {
         logMemberRegistration(member);
 
         // Gerar o contrato com as informações fornecidas
-        String caminhoContrato = gerarContrato(request);
+        byte[] contratoPdfBytes = gerarContrato(request);
 
         if (mailEnabled) {
             // Envia o e-mail com o contrato anexado para o novo membro
-            emailSendService.sendConfirmationEmailToUser(request, caminhoContrato);
+            emailSendService.sendConfirmationEmailToUser(request, contratoPdfBytes);
             // Envia o alerta para a equipe do clube
             emailSendService.sendAlertEmailToTeam(request);
         }
@@ -71,19 +68,17 @@ public class MembershipService extends UtilService {
     }
     
     // Gera o contrato em PDF com as substituições especificadas
-    private String gerarContrato(MemberRegisterRequest request) {
+    private byte[] gerarContrato(MemberRegisterRequest request) {
         Map<String, String> replacements = new HashMap<>();
 
         // Substituições de texto no contrato
         replacements.put("#NOMEMAIUSCULO#", request.getName().toUpperCase());
-        replacements.put("#NOME#", Arrays.stream(request.getName().split("\\s+"))
-            .map(StringUtils::capitalize)
-            .collect(Collectors.joining(" ")));
+        replacements.put("#NOME#", UtilService.toCapitalize(request.getName()));
         replacements.put("#ENDERECO#", request.getAddress());
         replacements.put("#CPF#", UtilService.formatarCpf(request.getCpf()));
         replacements.put("#DATA#", getDataAtualPorExtenso());
     
-        return documentService.replaceTextAndConvertToPdf(replacements, request.getName());
+        return documentService.replaceTextAndConvertToPdf(replacements);
     }
 
     // Método utilitário para obter a data atual por extenso

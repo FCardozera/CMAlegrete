@@ -50,7 +50,7 @@ function enviarAplicacao(event) {
     let phoneNumber = document.getElementById("phoneNumber").value;
     let address = document.getElementById("address").value;
     let militaryOrganization = document.getElementById("militaryOrganization").value;
-    cpf = cpf.replace(/\D/g, "");
+    // cpf = cpf.replace(/\D/g, "");
     phoneNumber = phoneNumber.replace(/\D/g, "");
 
     if (
@@ -69,8 +69,8 @@ function enviarAplicacao(event) {
         return false;
     }
 
-    if (cpf.length !== 11) {
-        alert("O campo de cpf deve conter 11 dígitos.");
+    if (cpf.length !== 14) {
+        alert("O campo de cpf deve conter 14 dígitos.");
         return false;
     }
 

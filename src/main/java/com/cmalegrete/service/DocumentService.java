@@ -1,12 +1,9 @@
 package com.cmalegrete.service;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +19,9 @@ import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 public class DocumentService {
 
     // Método principal que recebe os dados a serem substituídos e o nome do usuário
-    public String replaceTextAndConvertToPdf(Map<String, String> replacements, String nomeUsuarioArquivo) {
+    public byte[] replaceTextAndConvertToPdf(Map<String, String> replacements) {
         try {
-            // Carregar o template como InputStream
+            // Carrega o template como InputStream
             InputStream templateStream = getClass().getClassLoader()
                     .getResourceAsStream("docs/contrato_template.docx");
 
@@ -32,39 +29,27 @@ public class DocumentService {
                 throw new FileNotFoundException("Template não encontrado em: docs/contrato_template.docx");
             }
 
-            // Gerar nomes personalizados para os arquivos
-            String sanitizedNome = nomeUsuarioArquivo.replace(" ", "_").toLowerCase();
-            String newDocFileName = "contrato_" + sanitizedNome + ".docx";
-            String newPdfFileName = "contrato_" + sanitizedNome + ".pdf";
-
-            // Definir caminhos para salvar os arquivos (usando uma pasta temporária, por exemplo)
-            String tempDir = System.getProperty("java.io.tmpdir");
-            String newDocFilePath = Paths.get(tempDir, newDocFileName).toString();
-            String pdfFilePath = Paths.get(tempDir, newPdfFileName).toString();
-
-            // Manipular o template usando InputStream
+            // Carrega o documento .docx do template
             try (XWPFDocument doc = new XWPFDocument(templateStream)) {
 
-                // Substituir texto com base no Map de chaves e valores
+                // Substitui as strings com base no Map de chaves e valores
                 replacements.forEach((originalText, updatedText) -> replaceText(doc, originalText, updatedText));
 
-                // Salvar o documento modificado
-                saveFile(newDocFilePath, doc);
+                // Salva o documento modificado na memória
+                ByteArrayOutputStream docOutputStream = new ByteArrayOutputStream();
+                doc.write(docOutputStream);
 
-                // Converter o documento para PDF
-                convertToPdf(newDocFilePath, pdfFilePath);
+                // Converte para PDF e retorna os bytes
+                return convertToPdf(docOutputStream.toByteArray());
 
-                // Excluir o arquivo .docx temporário
-                deleteFile(newDocFilePath);
-
-                return pdfFilePath;
             } catch (Exception e) {
                 e.printStackTrace();
+                return new byte[1];
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return new byte[1];
         }
-        return "";
     }
 
     // Substitui o texto no documento inteiro
@@ -95,41 +80,21 @@ public class DocumentService {
         }
     }
 
-    // Salva o documento modificado
-    private void saveFile(String filePath, XWPFDocument document) {
-        try (FileOutputStream out = new FileOutputStream(filePath)) {
-            document.write(out);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     // Converte o arquivo .docx para PDF usando docx4j
-    private void convertToPdf(String docxPath, String pdfPath) {
+    private byte[] convertToPdf(byte[] docxBytes) {
         try {
-            InputStream inputDocStream = new FileInputStream(docxPath);
+            ByteArrayInputStream inputDocStream = new ByteArrayInputStream(docxBytes);
             XWPFDocument doc = new XWPFDocument(inputDocStream);
             PdfOptions pdfOptions = PdfOptions.create();
-            OutputStream outputPdfStream = new FileOutputStream(new File(pdfPath));
+            ByteArrayOutputStream outputPdfStream = new ByteArrayOutputStream();
             PdfConverter.getInstance().convert(doc, outputPdfStream, pdfOptions);
             doc.close();
             inputDocStream.close();
             outputPdfStream.close();
-            System.out.println("PDF gerado com sucesso: " + pdfPath);
+            return outputPdfStream.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // Excluir o arquivo temporário .docx
-    private void deleteFile(String filePath) {
-        File file = new File(filePath);
-        if (file.exists()) {
-            if (file.delete()) {
-                System.out.println("Arquivo excluído: " + filePath);
-            } else {
-                System.out.println("Falha ao excluir o arquivo: " + filePath);
-            }
-        }
+        return new byte[1];
     }
 }

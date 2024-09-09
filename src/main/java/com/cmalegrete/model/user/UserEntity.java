@@ -57,7 +57,7 @@ public abstract class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserStatusEnum status;
 
-    protected UserEntity(UUID id, String name, String cpf, String email, UserRoleEnum role, UserStatusEnum status) {
+    protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status) {
 
         if (name == null || name.isBlank()) {
             throw new MembershipException("Nome não pode ser nulo");
@@ -82,7 +82,7 @@ public abstract class UserEntity implements UserDetails {
         this.id = id;
         this.cpf = cpf;
         this.email = email;
-        this.name = name;
+        this.name = UtilService.toCapitalize(nome);
         this.tempPassword = UtilService.generatePassword();
         this.password = new BCryptPasswordEncoder().encode(this.tempPassword);
         this.role = role;

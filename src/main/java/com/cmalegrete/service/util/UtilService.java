@@ -1,8 +1,11 @@
 package com.cmalegrete.service.util;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 
@@ -71,6 +74,12 @@ public abstract class UtilService extends HandlerExceptionUtil {
     public static String formatarCpf(String cpf) {
         cpf = cpf.replaceAll("[^0-9]", "");
         return cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
+    }
+
+    public static String toCapitalize(String string) {
+        return Arrays.stream(string.split("\\s+"))
+            .map(StringUtils::capitalize)
+            .collect(Collectors.joining(" "));
     }
 
 }
