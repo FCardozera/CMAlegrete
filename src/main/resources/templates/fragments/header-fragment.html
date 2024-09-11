@@ -1,23 +1,32 @@
 <header th:fragment="header(currentPage)">
     <div class="header-container">
-      <!-- Logo -->
-      <a href="/">
-        <div class="logo grow">
-            <img src="images\logo.png" alt="Logo do Círculo Militar de Alegrete">
+        <!-- Logo -->
+        <a href="/">
+            <div class="logo grow">
+                <img src="images/logo.png" alt="Logo do Círculo Militar de Alegrete">
+            </div>
+        </a>
+
+        <!-- Menu de navegação -->
+        <nav id="nav-menu">
+            <ul class="nav-links">
+                <li th:replace="~{fragments/header/nav-link :: nav-link('/eventos', 'Eventos', ${currentPage})}"></li>
+                <li th:replace="~{fragments/header/nav-link :: nav-link('/reservas', 'Reservas', ${currentPage})}"></li>
+                <li
+                    th:replace="~{fragments/header/nav-link :: nav-link('/institucional', 'Institucional', ${currentPage})}">
+                </li>
+                <li th:replace="~{fragments/header/nav-link :: nav-link('/horarios', 'Horários', ${currentPage})}"></li>
+                <li
+                    th:replace="~{fragments/header/nav-link :: nav-link('/fale-conosco', 'Fale Conosco', ${currentPage})}">
+                </li>
+            </ul>
+        </nav>
+
+        <div class="associe">
+            <a href="/associe" class="button-associe">Associe-se</a>
         </div>
-      </a>
-      
-      <nav>
-        <ul class="nav-links">
-            <li th:replace="~{fragments/header/nav-link :: nav-link('/eventos', 'Eventos', ${currentPage})}"></li>
-            <li th:replace="~{fragments/header/nav-link :: nav-link('/reservas', 'Reservas', ${currentPage})}"></li>
-            <li th:replace="~{fragments/header/nav-link :: nav-link('/institucional', 'Institucional', ${currentPage})}"></li>
-            <li th:replace="~{fragments/header/nav-link :: nav-link('/horarios', 'Horários', ${currentPage})}"></li>
-            <li th:replace="~{fragments/header/nav-link :: nav-link('/fale-conosco', 'Fale Conosco', ${currentPage})}"></li>
-          </ul>
-      </nav>
-      
-      <a href="/associe-se" class="button-associe-se">Associe-se</a>
+
     </div>
     <div class="rs-flag-colors"></div>
+    <script src="\js\header.js"></script>
 </header>

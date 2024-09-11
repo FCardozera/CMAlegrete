@@ -1,6 +1,5 @@
 package com.cmalegrete.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -8,11 +7,13 @@ import org.springframework.stereotype.Service;
 import com.cmalegrete.dto.request.model.util.ContactMessageRequest;
 import com.cmalegrete.service.util.UtilService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class ContactUsService extends UtilService {
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailSendService emailSendService;
 
     @Value("${spring.mail.enable}")
     private boolean mailEnabled;
@@ -44,8 +45,8 @@ public class ContactUsService extends UtilService {
                 + "<strong>E-mail:</strong> " + request.getEmail() + "<br><br>"
                 + "<strong>Mensagem:</strong> " + request.getMessage() + "</p>";
             
-            emailService.enviarEmailTexto(membershipApprovalEmailAddress, request.getSubject(), htmlContactMsg);
-            emailService.enviarEmailTexto(request.getEmail(), "Confirmação de Envio de Mensagem", htmlMemberConfirmationMsg);
+            emailSendService.sendMessageToTeam(membershipApprovalEmailAddress, request.getSubject(), htmlContactMsg);
+            emailSendService.sendMessageToTeam(request.getEmail(), "Confirmação de Envio de Mensagem", htmlMemberConfirmationMsg);
         }
 
         return ResponseEntity.ok().build();
