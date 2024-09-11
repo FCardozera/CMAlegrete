@@ -1,12 +1,16 @@
 package com.cmalegrete.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.crypto.keygen.BytesKeyGenerator;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class EmailSendService extends UtilService{
+public class EmailSendService extends UtilService {
 
     private final JavaMailSender javaMailSender;
 
@@ -31,16 +35,15 @@ public class EmailSendService extends UtilService{
     private String membershipApprovalEmailAddress;
 
     @Async
-    public void sendConfirmationEmailToUser(MemberRegisterRequest request, byte[] contratoBytes) {
-        String htmlMemberMsg = generateMemberConfirmationMessage(request);
+    public void sendConfirmationEmailToUser(MemberRegisterRequest request, byte[] contratoBytes, String token) {
+        String htmlMemberMsg = generateMemberConfirmationMessage(request, token);
 
         enviarEmailComAnexo(
-            request.getEmail(),
-            "Confirmação de Envio de Aplicação",
-            htmlMemberMsg,
-            contratoBytes,
-            "contrato_" + request.getName().toLowerCase() + ".pdf"
-        );
+                request.getEmail(),
+                "Confirmação de Envio de Aplicação",
+                htmlMemberMsg,
+                contratoBytes,
+                "contrato_" + request.getName().toLowerCase() + ".pdf");
     }
 
     @Async
@@ -48,10 +51,9 @@ public class EmailSendService extends UtilService{
         String htmlRequestAlertMsg = generateAlertMessageForTeam(request);
 
         enviarEmailTexto(
-            membershipApprovalEmailAddress,
-            "Requerimento de Associação - " + UtilService.toCapitalize(request.getName()),
-            htmlRequestAlertMsg
-        );
+                membershipApprovalEmailAddress,
+                "Requerimento de Associação - " + UtilService.toCapitalize(request.getName()),
+                htmlRequestAlertMsg);
     }
 
     @Async
@@ -60,15 +62,17 @@ public class EmailSendService extends UtilService{
     }
 
     @Async
-    public void sendContractToTeam(MemberEntity member , List<MultipartFile> file) {
+    public void sendContractToTeam(MemberEntity member, List<MultipartFile> file) {
         String htmlContractMsg = generateContractMessageForTeam(member);
 
         try {
-            enviarEmailComAnexo(membershipApprovalEmailAddress, "Recebimento de Contrato", htmlContractMsg, file.get(0).getBytes(), file.get(0).getOriginalFilename());
+            MultipartFile multipartFile = file.get(0);
+            enviarEmailComAnexo(membershipApprovalEmailAddress, "Recebimento de Contrato", htmlContractMsg,
+                    multipartFile.getBytes(), "multipartFile.getName()");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     private void enviarEmailTexto(String destinatario, String assunto, String htmlMsg) {
@@ -92,7 +96,8 @@ public class EmailSendService extends UtilService{
     }
 
     // Novo método para envio de e-mail com anexo
-    private void enviarEmailComAnexo(String destinatario, String assunto, String htmlMsg, byte[] arquivoAnexoBytes, String nomeArquivoAnexo) {
+    private void enviarEmailComAnexo(String destinatario, String assunto, String htmlMsg, byte[] arquivoAnexoBytes,
+            String nomeArquivoAnexo) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -119,14 +124,16 @@ public class EmailSendService extends UtilService{
         StringBuilder msg = new StringBuilder();
 
         msg.append("<p>Equipe do Círculo Militar de Alegrete,</p>")
-            .append("<p>Foi recebido um novo requerimento de associação! Abaixo seguem os dados do requerente:</p>")
-            .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(request.getName())).append("<br>")
-            .append("<strong>CPF:</strong> ").append(request.getCpf()).append("<br>")
-            .append("<strong>E-mail:</strong> ").append(request.getEmail()).append("<br>")
-            .append("<strong>Telefone:</strong> ").append(request.getPhoneNumber()).append("<br>");
+                .append("<p>Foi recebido um novo requerimento de associação! Abaixo seguem os dados do requerente:</p>")
+                .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(request.getName()))
+                .append("<br>")
+                .append("<strong>CPF:</strong> ").append(request.getCpf()).append("<br>")
+                .append("<strong>E-mail:</strong> ").append(request.getEmail()).append("<br>")
+                .append("<strong>Telefone:</strong> ").append(request.getPhoneNumber()).append("<br>");
 
         if (request.getMilitaryOrganization() != null) {
-            msg.append("<strong>Organização Militar:</strong> ").append(request.getMilitaryOrganization()).append("</p>");
+            msg.append("<strong>Organização Militar:</strong> ").append(request.getMilitaryOrganization())
+                    .append("</p>");
         } else {
             msg.append("</p>");
         }
@@ -134,25 +141,28 @@ public class EmailSendService extends UtilService{
         return msg.toString();
     }
 
-    private String generateMemberConfirmationMessage(MemberRegisterRequest request) {
+    private String generateMemberConfirmationMessage(MemberRegisterRequest request, String token) {
         StringBuilder msg = new StringBuilder();
 
         msg.append("<p>Prezado(a) ").append(request.getName()).append(",</p>")
-            .append("<p>Estamos felizes em informar que sua aplicação foi enviada com sucesso! Abaixo estão os detalhes fornecidos:</p>")
-            .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(request.getName())).append("<br>")
-            .append("<strong>CPF:</strong> ").append(request.getCpf()).append("<br>")
-            .append("<strong>E-mail:</strong> ").append(request.getEmail()).append("<br>")
-            .append("<strong>Telefone:</strong> ").append(request.getPhoneNumber()).append("<br>");
+                .append("<p>Estamos felizes em informar que sua aplicação foi enviada com sucesso! Abaixo estão os detalhes fornecidos:</p>")
+                .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(request.getName()))
+                .append("<br>")
+                .append("<strong>CPF:</strong> ").append(request.getCpf()).append("<br>")
+                .append("<strong>E-mail:</strong> ").append(request.getEmail()).append("<br>")
+                .append("<strong>Telefone:</strong> ").append(request.getPhoneNumber()).append("<br>");
 
         if (request.getMilitaryOrganization() != null) {
-            msg.append("<strong>Organização Militar:</strong> ").append(request.getMilitaryOrganization()).append("</p>");
+            msg.append("<strong>Organização Militar:</strong> ").append(request.getMilitaryOrganization())
+                    .append("</p>");
         } else {
             msg.append("</p>");
         }
 
-        msg.append("<p>Por favor, entre em contato conosco através do site caso haja alguma dúvida ou se você precisar atualizar qualquer uma das informações fornecidas.</p>")
-            .append("<p>Atenciosamente,<br>Equipe do Círculo Militar de Alegrete</p>")
-            .append("<br><p style='font-size:8;'>Este é um e-mail automático, por favor não responder.</p>");
+        msg.append(generateContractLink(token))
+                .append("<p>Por favor, entre em contato conosco através do site caso haja alguma dúvida ou se você precisar atualizar qualquer uma das informações fornecidas.</p>")
+                .append("<p>Atenciosamente,<br>Equipe do Círculo Militar de Alegrete</p>")
+                .append("<br><p style='font-size:8;'>Este é um e-mail automático, por favor não responder.</p>");
 
         return msg.toString();
     }
@@ -161,18 +171,25 @@ public class EmailSendService extends UtilService{
         StringBuilder msg = new StringBuilder();
 
         msg.append("<p>Equipe do Círculo Militar de Alegrete,</p>")
-            .append("<p>Chegou um novo contrato! Abaixo seguem os dados do requerente:</p>")
-            .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(member.getName())).append("<br>")
-            .append("<strong>CPF:</strong> ").append(member.getCpf()).append("<br>")
-            .append("<strong>E-mail:</strong> ").append(member.getEmail()).append("<br>")
-            .append("<strong>Telefone:</strong> ").append(member.getPhoneNumber()).append("<br>");
+                .append("<p>Chegou um novo contrato! Abaixo seguem os dados do requerente:</p>")
+                .append("<p><strong>Nome Completo:</strong> ").append(UtilService.toCapitalize(member.getName()))
+                .append("<br>")
+                .append("<strong>CPF:</strong> ").append(member.getCpf()).append("<br>")
+                .append("<strong>E-mail:</strong> ").append(member.getEmail()).append("<br>")
+                .append("<strong>Telefone:</strong> ").append(member.getPhoneNumber()).append("<br>");
 
         if (member.getMilitaryOrganization() != null) {
-            msg.append("<strong>Organização Militar:</strong> ").append(member.getMilitaryOrganization()).append("</p>");
+            msg.append("<strong>Organização Militar:</strong> ").append(member.getMilitaryOrganization())
+                    .append("</p>");
         } else {
             msg.append("</p>");
         }
 
         return msg.toString();
+    }
+
+    private String generateContractLink(String token) {
+        return "<a href=http://localhost:8080/send-contract?token=" + token
+                + ">Clique aqui para acessar o link de envio do contrato!</a>";
     }
 }

@@ -38,6 +38,9 @@ public class MemberEntity extends UserEntity {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = true)
+    private byte[] contract;
+
     public MemberEntity(MemberRegisterRequest request) {
         super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, UserStatusEnum.PENDING);
 
@@ -49,6 +52,7 @@ public class MemberEntity extends UserEntity {
         this.militaryOrganization = request.getMilitaryOrganization();
         this.rg = request.getRg();
         this.address = request.getAddress();
+        this.contract = null;
     }
 
     public MemberEntity(MemberRegisterRequest request, UserStatusEnum status) {

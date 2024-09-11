@@ -10,6 +10,7 @@ import com.cmalegrete.dto.request.model.contract.ContractRequest;
 import com.cmalegrete.exception.generic.FileException;
 import com.cmalegrete.model.member.MemberEntity;
 import com.cmalegrete.model.sendcontracttoken.SendContractTokenRepository;
+import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.service.util.UtilService;
 
 @RequiredArgsConstructor
@@ -38,8 +39,15 @@ public class ContractService extends UtilService {
             throw new FileException("Formato de arquivo inválido");
         }
 
+        MemberEntity member = super.memberRepository.findById(getMemberbyToken(request.getToken()).getId()).get();
+        try {
+            member.setContract(request.getFile().getFirst().getBytes());
+            super.memberRepository.save(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //Enviar e-mail com arquivo para o circulo militar
-        emailSendService.sendContractToTeam(getMemberbyToken(request.getToken()), request.getFile());
+        emailSendService.sendContractToTeam(member, request.getFile());
 
         return ResponseEntity.ok().build();
     }

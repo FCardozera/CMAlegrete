@@ -28,10 +28,8 @@ public class ContractController {
         this.templateEngine = templateEngine;
     }
 
-    // @RequestParam String token
-
     @GetMapping
-    public ResponseEntity<String> getContractPage() {
+    public ResponseEntity<String> getContractPage(@RequestParam String token) {
         Context context = new Context();
         String htmlContent = templateEngine.process("send-contract", context);
 
