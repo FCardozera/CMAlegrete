@@ -40,14 +40,15 @@ public class ContractService extends UtilService {
         }
 
         MemberEntity member = super.memberRepository.findById(getMemberbyToken(request.getToken()).getId()).get();
+
+        //Enviar e-mail com arquivo para o circulo militar
         try {
             member.setContract(request.getFile().getFirst().getBytes());
             super.memberRepository.save(member);
+            emailSendService.sendContractToTeam(member, request.getFile().get(0).getBytes(), request.getFile().get(0).getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //Enviar e-mail com arquivo para o circulo militar
-        emailSendService.sendContractToTeam(member, request.getFile());
 
         return ResponseEntity.ok().build();
     }

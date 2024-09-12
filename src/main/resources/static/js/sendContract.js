@@ -9,9 +9,6 @@ function sendContract(event) {
     let token = params.token;
 
     const formData = new FormData();
-
-    event.preventDefault();
-
     for (const file of inputFile.files) {
         formData.append("file", file);
     }

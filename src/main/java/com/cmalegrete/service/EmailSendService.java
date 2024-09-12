@@ -62,13 +62,11 @@ public class EmailSendService extends UtilService {
     }
 
     @Async
-    public void sendContractToTeam(MemberEntity member, List<MultipartFile> file) {
+    public void sendContractToTeam(MemberEntity member, byte[] file, String fileName) {
         String htmlContractMsg = generateContractMessageForTeam(member);
 
-        try {
-            MultipartFile multipartFile = file.get(0);
-            enviarEmailComAnexo(membershipApprovalEmailAddress, "Recebimento de Contrato", htmlContractMsg,
-                    multipartFile.getBytes(), "multipartFile.getName()");
+        try { 
+            enviarEmailComAnexo(membershipApprovalEmailAddress, "Recebimento de Contrato", htmlContractMsg, file, fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
