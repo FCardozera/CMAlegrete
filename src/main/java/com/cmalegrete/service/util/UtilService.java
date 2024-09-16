@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import com.cmalegrete.dto.request.model.util.RequestEmail;
 import com.cmalegrete.exception.generic.UnauthorizedUserException;
 import com.cmalegrete.exception.handler.util.HandlerExceptionUtil;
+import com.cmalegrete.model.member.MemberRepository;
+import com.cmalegrete.model.sendcontracttoken.SendContractTokenRepository;
 import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.model.user.UserRepository;
 import com.cmalegrete.model.user.UserRoleEnum;
@@ -20,6 +22,12 @@ public abstract class UtilService extends HandlerExceptionUtil {
 
     @Autowired
     public UserRepository userRepository;
+
+    @Autowired
+    public MemberRepository memberRepository;
+
+    @Autowired
+    public SendContractTokenRepository sendContractTokenRepository;
 
     public static final String UNAUTHORIZED_ACESS_ATTEMPT = "Unauthorized access attempt";
     public static final String UNAUTHORIZED_ACESS_ATTEMPT_DOTS = "Unauthorized access attempt: ";
@@ -32,6 +40,10 @@ public abstract class UtilService extends HandlerExceptionUtil {
 
     public boolean userExists(Authentication authentication) {
         return userRepository.findByEmail(((UserEntity) authentication.getPrincipal()).getEmail()) != null;
+    }
+
+    public boolean tokenExists(String token) {
+        return  !sendContractTokenRepository.findByToken(token).isEmpty();
     }
 
     public void verifyAuthorization(Authentication authentication, UUID id) {

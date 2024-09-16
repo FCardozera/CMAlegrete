@@ -59,11 +59,11 @@ public abstract class UserEntity implements UserDetails {
 
     protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status) {
 
-        if (name == null || name.isBlank()) {
+        if (nome == null || nome.isBlank()) {
             throw new MembershipException("Nome não pode ser nulo");
         }
 
-        if (cpf == null || name.isBlank()) {
+        if (cpf == null || cpf.isBlank()) {
             throw new MembershipException("CPF não pode ser nulo");
         }
 

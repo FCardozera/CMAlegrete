@@ -12,11 +12,15 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.stereotype.Service;
 
+import com.cmalegrete.service.util.UtilService;
+
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Service
-public class DocumentService {
+public class DocumentService extends UtilService{
 
     // Método principal que recebe os dados a serem substituídos e o nome do usuário
     public byte[] replaceTextAndConvertToPdf(Map<String, String> replacements) {

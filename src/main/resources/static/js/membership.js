@@ -74,11 +74,6 @@ function enviarAplicacao(event) {
         return false;
     }
 
-    if (rg.length !== 10) {
-        alert("O campo de cpf deve conter 10 dígitos.");
-        return false;
-    }
-
     if (!validacpf(cpf)) {
         event.preventDefault();
         alert('cpf inválido. Verifique o número digitado.');
@@ -105,7 +100,7 @@ function enviarAplicacao(event) {
         militaryOrganization: militaryOrganization,
     };
 
-    fetch("/associe-se", {
+    fetch("/associe", {
         method: "post",
         headers: {
             "Content-Type": "application/json",

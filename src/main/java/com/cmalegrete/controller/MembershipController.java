@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
-@RequestMapping("/associe-se")
+@RequestMapping("/associe")
 public class MembershipController {
 
     private final SpringTemplateEngine templateEngine;
