@@ -25,6 +25,7 @@ import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.Store;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
@@ -55,16 +56,16 @@ public class ContractService extends UtilService {
 
     public ResponseEntity<Object> sendContract(ContractRequest request) {
         if (request.getFile() == null || request.getFile().isEmpty()) {
-            throw new FileException("Um arquivo é necessário.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Um arquivo .pdf deve ser enviado.");
         }
 
         if (request.getFile().size() > 1) {
-            throw new FileException("Só é permitido o envio de 01 arquivo.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Só é permitido o envio de 01 arquivo.");
         }
 
         String contentType = request.getFile().get(0).getContentType();
         if (contentType == null || !contentType.equals(MediaType.APPLICATION_PDF_VALUE)) {
-            throw new FileException("Formato de arquivo inválido. Apenas PDF é aceito.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao processar arquivo, apenas .pdf são aceitos.");
         }
 
         try {
@@ -75,7 +76,7 @@ public class ContractService extends UtilService {
             // Verificar se o PDF contém assinaturas digitais
             List<PDSignature> signatures = document.getSignatureDictionaries();
             if (signatures.isEmpty()) {
-                throw new FileException("O documento não contém assinaturas digitais.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O documento não contém assinaturas digitais.");
             }
 
             // Para cada assinatura, verificar se é válida
@@ -93,14 +94,13 @@ public class ContractService extends UtilService {
                             .getCertificate(certHolder);
 
                     if (!isValidGovBrCertificate(certificate)) {
-                        throw new FileException(
-                                "A assinatura digital do contrato não é válida ou não está conforme gov.br.");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A assinatura digital do contrato não é válida ou não está conforme gov.br.");
                     }
 
                     Date agora = new Date();
 
                     if (certificate.getNotAfter().before(agora)) {
-                        throw new FileException("A assinatura digital está expirada ou inválida.");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A assinatura digital está expirada ou inválida.");
                     }
                 }
             }
@@ -117,9 +117,9 @@ public class ContractService extends UtilService {
 
             sendContractTokenRepository.delete(token);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("Arquivo enviado com sucesso!");
         } catch (Exception e) {
-            throw new FileException("Erro ao verificar a assinatura digital: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar o arquivo enviado.");
         }
     }
 

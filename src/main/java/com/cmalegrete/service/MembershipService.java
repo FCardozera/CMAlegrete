@@ -50,8 +50,6 @@ public class MembershipService extends UtilService {
         if (mailEnabled) {
             // Envia o e-mail com o contrato anexado para o novo membro
             emailSendService.sendConfirmationEmailToUser(request, contratoPdfBytes, criarTokenContrato(member));
-            // Envia o alerta para a equipe do clube
-            emailSendService.sendAlertEmailToTeam(request);
         }
 
         return ResponseEntity.ok().build();

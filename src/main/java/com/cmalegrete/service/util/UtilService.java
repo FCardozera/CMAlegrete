@@ -2,7 +2,6 @@ package com.cmalegrete.service.util;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,6 @@ import com.cmalegrete.dto.request.model.util.RequestEmail;
 import com.cmalegrete.exception.generic.UnauthorizedUserException;
 import com.cmalegrete.exception.handler.util.HandlerExceptionUtil;
 import com.cmalegrete.model.member.MemberRepository;
-import com.cmalegrete.model.sendcontracttoken.SendContractTokenEntity;
 import com.cmalegrete.model.sendcontracttoken.SendContractTokenRepository;
 import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.model.user.UserRepository;
