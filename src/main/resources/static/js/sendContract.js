@@ -3,6 +3,12 @@ function sendContract(event) {
     console.log("validateForm function called");
 
     const inputFile = document.getElementById("formFile");
+
+    if (inputFile === null) {
+        alert("Por favor, efetue o envio de 01 arquivo válido (.pdf).");
+        return false;
+    }
+
     const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
     });

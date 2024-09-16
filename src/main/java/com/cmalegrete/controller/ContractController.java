@@ -31,9 +31,12 @@ public class ContractController {
     @GetMapping
     public ResponseEntity<String> getContractPage(@RequestParam String token) {
         Context context = new Context();
-        String htmlContent = templateEngine.process("send-contract", context);
-
-        return new ResponseEntity<>(htmlContent, HttpStatus.OK);
+        if (contractService.checkUrlToken(token)) {
+            String htmlContent = templateEngine.process("send-contract", context);
+            return new ResponseEntity<>(htmlContent, HttpStatus.OK);
+        }
+        String htmlContent = templateEngine.process("index", context);
+        return new ResponseEntity<>(htmlContent, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
