@@ -1,0 +1,110 @@
+@import url('https://fonts.cdnfonts.com/css/futura-std-4');
+
+/* Configuração do corpo e header */
+body {
+    font-family: 'Futura Std', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-section {
+    background-color: #f4f4f4;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 18px;
+    color: #555;
+}
+
+.about-section,
+.services-section {
+    padding: 40px 0;
+}
+
+.about-section h2,
+.services-section h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.about-section p,
+.services-section p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Estilização do Swiper */
+.swiper-container {
+    width: 100%;
+    margin: 0 auto;
+    /* Centraliza o slider */
+    position: relative;
+    /* Necessário para centralizar botões */
+    cursor: grabbing;
+    overflow: hidden;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    /* Limita a altura máxima das imagens */
+    object-fit: cover;
+    /* Corta a imagem para caber no container */
+    border-radius: 10px;
+}
+
+/* Centralização dos botões de navegação */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #002060;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+/* Centralização da paginação */
+.swiper-pagination {
+    bottom: 10px;
+    /* Posiciona a paginação na parte inferior */
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+}
+
+/* Espaço entre o header e o conteúdo */
+.spacer {
+    height: 20px;
+}

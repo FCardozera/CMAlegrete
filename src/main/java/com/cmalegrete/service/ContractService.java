@@ -2,10 +2,7 @@ package com.cmalegrete.service;
 
 import org.springframework.http.ResponseEntity;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.security.Security;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.Date;
@@ -16,12 +13,9 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
-import org.bouncycastle.cms.SignerInformationVerifier;
-import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.Store;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +26,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import com.cmalegrete.dto.request.model.contract.ContractRequest;
-import com.cmalegrete.exception.generic.FileException;
 import com.cmalegrete.model.member.MemberEntity;
 import com.cmalegrete.model.sendcontracttoken.SendContractTokenEntity;
 import com.cmalegrete.service.util.UtilService;
@@ -69,17 +62,14 @@ public class ContractService extends UtilService {
         }
 
         try {
-            // Carregar o documento PDF
             byte[] pdfBytes = request.getFile().get(0).getBytes();
             PDDocument document = Loader.loadPDF(pdfBytes);
 
-            // Verificar se o PDF contém assinaturas digitais
             List<PDSignature> signatures = document.getSignatureDictionaries();
             if (signatures.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O documento não contém assinaturas digitais.");
             }
 
-            // Para cada assinatura, verificar se é válida
             for (PDSignature signature : signatures) {
                 byte[] signatureBytes = signature.getContents(pdfBytes);
                 CMSSignedData cmsSignedData = new CMSSignedData(signatureBytes);
@@ -113,6 +103,7 @@ public class ContractService extends UtilService {
             if (mailEnabled) {
                 emailSendService.sendContractToTeam(member, pdfBytes,
                         request.getFile().get(0).getOriginalFilename());
+                emailSendService.sendReceivedContractConfirmationToMember(member);
             }
 
             sendContractTokenRepository.delete(token);

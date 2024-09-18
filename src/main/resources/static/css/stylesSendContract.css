@@ -1,0 +1,31 @@
+@import url('https://fonts.cdnfonts.com/css/futura-std-4');
+body {
+    background-color: #f8f9fa;
+    font-family: 'Futura Std', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    flex: 1;
+    position: relative;
+    min-height: 70vh;
+    max-width: 600px;
+    margin-top: 50px;
+    
+}
+
+.content-wrap {
+    padding-bottom: 2.5rem;
+}
+
+.upload-box {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upload-instructions {
+    margin-bottom: 20px;
+}

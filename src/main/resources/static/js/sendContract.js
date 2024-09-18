@@ -11,7 +11,7 @@ function sendContract(event) {
     if (inputFile.files.length === 0) {
         alertBox.className = 'alert alert-danger';
         alertBox.textContent = 'Por favor, efetue o envio de um arquivo válido (.pdf).';
-        uploadBox.prepend(alertBox);
+        uploadBox.append(alertBox);
         return false;
     }
 
@@ -35,7 +35,7 @@ function sendContract(event) {
             // Mensagem de sucesso
             alertBox.className = 'alert alert-success';
             alertBox.textContent = 'Contrato enviado com sucesso! Seu contrato será analisado e retornaremos com a resposta em até 04 dias úteis!';
-            uploadBox.prepend(alertBox);
+            uploadBox.append(alertBox);
 
             // Redirecionar para a página inicial após alguns segundos
             setTimeout(() => {
@@ -48,6 +48,6 @@ function sendContract(event) {
     .catch((error) => {
         alertBox.className = 'alert alert-danger';
         alertBox.textContent = 'Algo deu errado! Verifique se o seu arquivo é formato .pdf de tamanho máximo 1MB e possui assinatura digital GOV válida e tente novamente.';
-        uploadBox.prepend(alertBox);
+        uploadBox.append(alertBox);
     });
 }

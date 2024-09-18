@@ -1,0 +1,125 @@
+@import url('https://fonts.cdnfonts.com/css/futura-std-4');
+
+body {
+    font-family: 'Futura Std', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.fale-conosco-container {
+    display: flex;
+    height: 80vh;
+    width: 100%;
+}
+
+.fale-conosco-form {
+    flex: 1;
+    background-color: #002060;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    color: white;
+}
+
+.fale-conosco-form h1 {
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: white;
+    text-align: center;
+}
+
+.fale-conosco-form form {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.fale-conosco-form input[type="text"],
+.fale-conosco-form input[type="email"],
+.fale-conosco-form input[type="tel"],
+.fale-conosco-form input[type="submit"],
+.fale-conosco-form textarea {
+    font-family: 'Futura Std', sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    color: #333;
+    font-size: 16px;
+}
+
+.fale-conosco-info {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.fale-conosco-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('../images/banner-fale-conosco.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    filter: grayscale(100%);
+    z-index: 0;
+}
+
+/* Texto */
+.info-text {
+    position: relative;
+    z-index: 1;
+    color: #002060;
+    text-align: center;
+    padding: 20px;
+}
+
+.info-text h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.info-text p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.button-enviar-aplicacao {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.button-enviar-aplicacao {
+    background-color: #ffcc00;
+    font-family: 'Futura Std', sans-serif;
+    font-size: 20px;
+    color: #002060;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-position 1s ease, color 0.3s ease;
+    background-size: 300%;
+    background-image: linear-gradient(to right, #006400 33.33%, #ff0000 33.33%, #ff0000 66.66%, #ffcc00 66.66%);
+    background-position: right;
+}
+
+.button-enviar-aplicacao:hover {
+    background-position: left;
+    color: white;
+}

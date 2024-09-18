@@ -1,0 +1,66 @@
+@import url('https://fonts.cdnfonts.com/css/futura-std-4');
+
+/* Configuração do corpo e header */
+body {
+    font-family: 'Futura Std', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.grow:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    transition: transform 0.3s ease-out;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-right: 5rem;
+}
+
+.footer-logo {
+    max-height: 100px;
+}
+
+
+.footer-social-icons {
+    display: flex;
+    gap: 5px;
+}
+
+.icon-link-footer .icon-image {
+    max-height: 40px;
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        text-align: center;
+        justify-content: space-evenly;
+        padding: 1rem 0;
+    }
+
+    .footer-container p {
+        display: none;
+        visibility: hidden;
+    }
+
+    .footer-social-icons {
+        margin-top: 0;
+    }
+
+    .grow .footer-logo{
+        width: 40vw;
+    }
+}
