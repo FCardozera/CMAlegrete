@@ -17,6 +17,24 @@ document.getElementById('phoneNumber').addEventListener('input', function (e) {
     e.target.value = phonePattern;
 });
 
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
 function validacpf(cpf) {
     cpf = cpf.replace(/\D+/g, '');
     if (cpf.length !== 11) return false;
@@ -50,7 +68,6 @@ function enviarAplicacao(event) {
     let phoneNumber = document.getElementById("phoneNumber").value;
     let address = document.getElementById("address").value;
     let militaryOrganization = document.getElementById("militaryOrganization").value;
-    // cpf = cpf.replace(/\D/g, "");
     phoneNumber = phoneNumber.replace(/\D/g, "");
 
     if (
@@ -60,33 +77,33 @@ function enviarAplicacao(event) {
         email === "" ||
         phoneNumber === ""
     ) {
-        alert("Por favor, preencha todos os campos para efetuar o cadastro.");
+        toastr.error("Por favor, preencha todos os campos para efetuar o cadastro.");
         return false;
     }
 
     if (name.length < 3 || name.length > 80) {
-        alert("O nome completo deve ter entre 3 e 80 caracteres.");
+        toastr.error("O nome completo deve ter entre 3 e 80 caracteres.");
         return false;
     }
 
     if (cpf.length !== 14) {
-        alert("O campo de cpf deve conter 14 dígitos.");
+        toastr.error("O campo de CPF deve conter 14 dígitos.");
         return false;
     }
 
     if (!validacpf(cpf)) {
-        event.preventDefault();
-        alert('cpf inválido. Verifique o número digitado.');
+        toastr.error("CPF inválido. Verifique o número digitado.");
         document.getElementById('cpf').focus();
+        return false;
     }
 
     if (phoneNumber.length !== 11) {
-        alert("O campo Telefone deve conter 11 dígitos.");
+        toastr.error("O campo Telefone deve conter 11 dígitos.");
         return false;
     }
 
     if (!email.includes("@") || !email.includes(".com")) {
-        alert("E-mail inválido!");
+        toastr.error("E-mail inválido!");
         return false;
     }
 
@@ -109,12 +126,17 @@ function enviarAplicacao(event) {
     })
         .then((response) => {
             if (response.ok) {
-                alert("Sua aplicação foi remetida com sucesso!" + "\n" + "E-mail enviado para: " + email);
-                window.location.href = "/";
+                toastr.success("Sua aplicação foi remetida com sucesso! E-mail enviado para: " + email);
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 5000);
+            } else {
+                toastr.error("Ocorreu um erro ao cadastrar.");
             }
         })
         .catch((error) => {
-            alert("Ocorreu um erro ao cadastrar!");
+            toastr.error("Erro ao processar sua solicitação. Tente novamente.");
             console.error(error);
         });
 }
+

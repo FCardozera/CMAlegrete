@@ -114,6 +114,28 @@ select {
     box-shadow: 0 0 20px 10px #0b43b3;
 }
 
+.toast-error {
+    width: 400px !important;
+    height: auto !important;
+    font-size: 18px !important;
+    background-color: #f44336 !important;
+    color: white !important;
+    opacity: 0.9 !important;
+}
+
+.toast-success {
+    width: 400px !important;
+    height: auto !important;
+    font-size: 18px !important;
+    background-color: #15b307 !important;
+    color: white !important;
+    opacity: 0.9 !important;
+}
+
+.toast-error .toast-close-button, .toast-success .toast-close-button {
+    color: white !important;
+}
+
 @media (max-width: 1500px) {
     .associe-container{
         display: flex;
@@ -159,5 +181,19 @@ select {
 
     .form-group{
         margin-right: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .toast-success {
+        width: 250px !important;
+        height: auto !important;
+        font-size: 16px !important;
+    }
+
+    .toast-error {
+        width: 250px !important;
+        height: auto !important;
+        font-size: 16px !important;
     }
 }

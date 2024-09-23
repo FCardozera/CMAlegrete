@@ -3,6 +3,7 @@
 
 <head th:replace="~{fragments/head-fragment :: head('Associe-se - CMA')}"></head>
 <link href="\css\stylesMembership.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
 <body>
     <header th:replace="~{fragments/header-fragment :: header('Associe-se')}"></header>
@@ -72,7 +73,11 @@
         </div>
     </section>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="\js\membership.js"></script>
+    
+    
 
     <footer th:replace="~{fragments/footer-fragment :: footer}"></footer>
 </body>
