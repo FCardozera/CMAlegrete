@@ -16,7 +16,7 @@ body {
     background-size: cover;
     background-position: center;
     filter: grayscale(100%);
-    opacity: 0.1;
+    opacity: 0.2;
     z-index: -1;
 }
 

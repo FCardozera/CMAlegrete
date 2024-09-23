@@ -65,7 +65,7 @@ body {
     background-size: cover;
     background-position: center;
     filter: grayscale(100%);
-    opacity: 0.1;
+    opacity: 0.2;
     z-index: -1;
 }
 
@@ -106,7 +106,7 @@ body {
     border-radius: 20px;
     text-decoration: none;
     font-weight: bold;
-    transition: background-position 1s ease, color 0.3s ease;
+    transition: background-position 1s ease, color 0.3s ease, box-shadow 0.3s ease;
     background-size: 300%;
     background-image: linear-gradient(to right, #006400 33.33%, #ff0000 33.33%, #ff0000 66.66%, #ffcc00 66.66%);
     background-position: right;
@@ -115,6 +115,10 @@ body {
 .button-enviar-aplicacao:hover {
     background-position: left;
     color: white;
+}
+
+.button-enviar-aplicacao:active {
+    box-shadow: 0 0 20px 10px #0b43b3;
 }
 
 @media (max-width: 780px) {
