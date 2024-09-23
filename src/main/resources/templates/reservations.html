@@ -6,9 +6,9 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
 <body>
-  <header th:replace="~{fragments/header-fragment :: header('Reservas')}"></header>
+    <header th:replace="~{fragments/header-fragment :: header('Reservas')}"></header>
 
-  <section class="reservas-container">
+    <section class="reservas-container">
         <div class="reservas-background"></div>
 
         <div class="reservas-content">
@@ -21,19 +21,23 @@
                         <div class="swiper-slide"><img src="\images\quiosque2.jpg" alt="Imagem 2"></div>
                         <div class="swiper-slide"><img src="\images\quiosque2.jpg" alt="Imagem 3"></div>
                     </div>
-                    <!-- Add Pagination -->
                     <div class="swiper-pagination"></div>
                 </div>
+
+                <div id="imageModal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="modalImage">
+                </div>
+
                 <div class="reservas-item-info">
-                    <p>Capacidade: 30 pessoas</p>
-                    <p>Equipado com 02 churrasqueiras e freezer</p>
-                    <p>Sábados e Domingos: 9h às 20h</p>
-                    <p>Para verificar os horários disponíveis e realizar reserva: <br>
+                    <p><strong>Capacidade:</strong> 30 pessoas</p>
+                    <p><strong>Equipado com:</strong> 02 churrasqueiras e freezer</p>
+                    <p><strong>Realizar reserva através de:</strong> <br>
                         WhatsApp e Ligações: (55) 99999-9999
                     </p>
                 </div>
             </div>
-            
+
             <div class="reservas-item">
                 <h2>Salão Superior</h2>
                 <div class="swiper-container">
@@ -44,16 +48,21 @@
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
+
+                <div id="imageModal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="modalImage">
+                </div>
+
                 <div class="reservas-item-info">
-                    <p>Capacidade: 30 pessoas</p>
-                    <p>Equipado com 02 churrasqueiras e freezer</p>
-                    <p>Sábados e Domingos: 9h às 20h</p>
-                    <p>Para verificar os horários disponíveis e realizar reserva: <br>
+                    <p><strong>Capacidade:</strong> 30 pessoas</p>
+                    <p><strong>Equipado com:</strong> 02 churrasqueiras e freezer</p>
+                    <p><strong>Realizar reserva através de:</strong> <br>
                         WhatsApp e Ligações: (55) 99999-9999
                     </p>
                 </div>
             </div>
-            
+
             <div class="reservas-item">
                 <h2>Salão Inferior</h2>
                 <div class="swiper-container">
@@ -64,26 +73,29 @@
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
+
+                <div id="imageModal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="modalImage">
+                </div>
+
                 <div class="reservas-item-info">
-                    
-                    <p>Capacidade: 30 pessoas</p>
-                    <p>Equipado com 02 churrasqueiras e freezer</p>
-                    <p>Sábados e Domingos: 9h às 20h</p>
-                    <p>Para verificar os horários disponíveis e realizar reserva: <br>
+                    <p><strong>Capacidade:</strong> 30 pessoas</p>
+                    <p><strong>Equipado com:</strong> 02 churrasqueiras e freezer</p>
+                    <p><strong>Realizar reserva através de:</strong> <br>
                         WhatsApp e Ligações: (55) 99999-9999
                     </p>
                 </div>
             </div>
-            
 
-            <p>Agendamentos e reservas são exclusivos para sócios <br>
-                Sistema para reservas em desenvolvimento...</p>
+            <p>Sistema para reservas em desenvolvimento...</p>
         </div>
     </section>
 
-  <footer th:replace="~{fragments/footer-fragment :: footer}"></footer>
+    <footer th:replace="~{fragments/footer-fragment :: footer}"></footer>
 
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <script src="\js\reservations.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="\js\reservations.js"></script>
 </body>
+
 </html>

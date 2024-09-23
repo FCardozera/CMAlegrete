@@ -24,14 +24,16 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 0.5rem;
-    padding-right: 5rem;
+    padding: 0.5rem;
 }
 
 .footer-logo {
     max-height: 100px;
 }
 
+.footer-text p {
+    margin: 0;
+}
 
 .footer-social-icons {
     display: flex;
@@ -51,16 +53,15 @@ footer {
         padding: 1rem 0;
     }
 
-    .footer-container p {
+    .footer-text {
         display: none;
-        visibility: hidden;
     }
 
     .footer-social-icons {
         margin-top: 0;
     }
 
-    .grow .footer-logo{
+    .grow .footer-logo {
         width: 40vw;
     }
 }

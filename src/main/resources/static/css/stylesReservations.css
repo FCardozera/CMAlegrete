@@ -36,7 +36,8 @@ body {
 
 .reservas-content h1 {
     font-size: 36px;
-    margin-bottom: 20px;
+    margin: 20px 0;
+    font-weight: bold;
 }
 
 .reservas-item {
@@ -53,19 +54,20 @@ body {
 }
 
 .reservas-item-info {
-    flex: 50%;
-    padding-right: 15px;
     color: #002060;
+    margin-top: 10px;
 }
 
 .reservas-item h2 {
     font-size: 32px;
     margin-top: 0px;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .reservas-item-info p {
     font-size: 18px;
+    margin-bottom: 0;
 }
 
 .swiper-container {
@@ -113,4 +115,60 @@ body {
     width: 100%;
     position: absolute;
     z-index: 10;
+}
+
+.modal {
+    display: none;
+    z-index: 999;
+    align-items: center;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: cover;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .reservas-content {
+        width: 85%;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .reservas-content {
+        width: 90%;
+    }
+
+    .reservas-item h2 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 400px) {
+    .reservas-item p {
+        font-size: 16px;
+    }
+
 }
