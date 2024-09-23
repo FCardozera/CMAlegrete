@@ -21,6 +21,7 @@ body {
 .hero-section h1 {
     font-size: 48px;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .hero-section p {
@@ -36,6 +37,7 @@ body {
 .about-section h2,
 .services-section h2 {
     font-size: 36px;
+    font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
     color: #333;
@@ -67,14 +69,6 @@ body {
     height: auto;
     max-height: 450px;
     object-fit: cover;
-}
-
-.swiper-button-next {
-    right: 10px;
-}
-
-.swiper-button-prev {
-    left: 10px;
 }
 
 .swiper-pagination {

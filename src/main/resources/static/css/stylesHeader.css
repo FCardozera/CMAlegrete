@@ -277,6 +277,10 @@ header {
         width: 100%;
         max-width: 15vw;
     }
+
+    .nav-links li {
+        flex-grow: 1;
+    }
 }
 
 @media (max-width: 768px) {
