@@ -16,23 +16,35 @@ body {
 
 .horarios-content {
     color: #002060;
-    width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 40%;
+    justify-content: center;
     text-align: center;
     align-content: center;
     z-index: 2;
+    background-color: #f7f7f7a2;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 50px 0;
 }
 
 .horarios-content h1 {
+    flex-basis: 100%;
     font-size: 36px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    font-weight: bold;
 }
 
 .horarios-item {
-    margin-bottom: 20px;
+    margin: 10px;
 }
 
 .horarios-item h2 {
-    font-size: 24px;
+    font-weight: bold;
+    font-size: 32px;
     margin-bottom: 10px;
 }
 
@@ -51,6 +63,24 @@ body {
     background-size: cover;
     background-position: center;
     filter: grayscale(100%);
-    opacity: 0.3;
+    opacity: 0.2;
     z-index: 1;
+}
+
+@media (max-width: 1530px) {
+    .horarios-content {
+        width: 60%;
+    }
+}
+
+@media (max-width: 1140px) {
+    .horarios-content {
+        width: 70%;
+    }
+}
+
+@media (max-width: 880px) {
+    .horarios-content {
+        width: 85%;
+    }
 }

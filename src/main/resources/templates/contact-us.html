@@ -3,12 +3,12 @@
 
 <head th:replace="~{fragments/head-fragment :: head('Fale Conosco - CMA')}"></head>
 <link href="\css\stylesContactUs.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
 <body>
     <header th:replace="~{fragments/header-fragment :: header('Fale Conosco')}"></header>
 
-    <div class="fale-conosco-container">
-        <!-- Formulário de contato à esquerda -->
+    <div class="fale-conosco-container"> 
         <div class="fale-conosco-form">
             <h1>Fale Conosco</h1>
             <form>
@@ -27,27 +27,27 @@
                 
                 <button type="submit" class="button-enviar-aplicacao" onclick="enviarMensagem(event)"><span>Enviar Mensagem</span></button>
 
-                <p>O Serviço de Atendimento ao Associado (SAAS) é o meio de contato dos associados com o clube. <br>
-                    A área é responsável por ouvir os associados, receber e encaminhar as demandas, sugestões e reclamações recebidas.</p>
+                <p>Responderemos o seu contato via e-mail assim que possível.</p>
             </form>
         </div>
 
-        <!-- Texto e imagem de fundo à direita -->
         <div class="fale-conosco-info">
+            <div class="fale-conosco-background"></div>
             <div class="info-text">
                 <h2>Entre em Contato</h2>
-                <p>Endereço: Av. Marechal Deodoro, 1234 - Centro</p>
-                <p>Telefone: (55) 9999-9999</p>
-                <p>Email: contato@clubemilitaralegrete.com</p>
-                <p>Horário de Atendimento: Segunda a Sexta, das 8h às 18h</p>
+                <p><strong>Endereço:</strong> Av. Marechal Deodoro, 1234 - Centro</p>
+                <p><strong>Telefone:</strong> (55) 9999-9999</p>
+                <p><strong>Email:</strong> contato@clubemilitaralegrete.com</p>
+                <p><strong>Horário de Atendimento:</strong> Segunda a Sexta, das 8h às 18h</p>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="\js\contactUs.js"></script>
 
     <footer>
-        <!-- Footer da página -->
         <div th:replace="~{fragments/footer-fragment :: footer}"></div>
     </footer>
 </body>

@@ -1,3 +1,21 @@
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
 function enviarMensagem(event) {
     event.preventDefault();
     console.log("validateForm function called");
@@ -13,17 +31,17 @@ function enviarMensagem(event) {
         subject === "" ||
         message === ""
     ) {
-        alert("Por favor, preencha todos os campos para efetuar o cadastro.");
+        toastr.error("Por favor, preencha todos os campos para enviar a mensagem.");
         return false;
     }
 
     if (name.length < 3 || name.length > 80) {
-        alert("O nome completo deve ter entre 3 e 80 caracteres.");
+        toastr.error("O nome completo deve ter entre 3 e 80 caracteres.");
         return false;
     }
 
     if (!email.includes("@") || !email.includes(".com")) {
-        alert("E-mail inválido!");
+        toastr.error("E-mail inválido!");
         return false;
     }
 
@@ -43,8 +61,10 @@ function enviarMensagem(event) {
     })
         .then((response) => {
             if (response.ok) {
-                alert(name + " sua mensagem foi enviada com sucesso!");
-                window.location.href = "/";
+                toastr.success(name + " sua mensagem foi enviada com sucesso!");
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 5000);
             } else {
                 response.text().then(data => {
                     senhaError.textContent = data;
@@ -52,7 +72,7 @@ function enviarMensagem(event) {
             }
         })
         .catch((error) => {
-            alert("Ocorreu um erro ao enviar a mensagem!");
+            toastr.error("Ocorreu um erro ao enviar a mensagem!");
             console.error(error);
         });
 }

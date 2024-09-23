@@ -1,3 +1,3 @@
-<li th:fragment="nav-link(href, name, currentPage)">
+<li th:class="${name}" th:fragment="nav-link(href, name, currentPage)">
     <a th:href="${href}" th:classappend="${currentPage == name} ? 'active' : ''" th:text="${name}"></a>
 </li>
