@@ -9,6 +9,7 @@ body {
 .associe-container {
     display: flex;
     width: 100%;
+    min-height: 76dvh;
     height: fit-content;
 }
 
@@ -51,6 +52,7 @@ body {
     align-content: center;
     padding-bottom: 40px;
     color: #fff;
+    min-width: 40dvw;
 }
 
 .form-associe {
@@ -112,6 +114,13 @@ select {
 
 .button-enviar-aplicacao:active {
     box-shadow: 0 0 20px 10px #0b43b3;
+}
+
+.form-reenviar-email {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 .toast-error {

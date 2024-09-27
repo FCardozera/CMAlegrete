@@ -10,6 +10,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
+import com.cmalegrete.dto.request.model.util.RequestEmail;
 import com.cmalegrete.service.MembershipService;
 
 import jakarta.validation.Valid;
@@ -43,5 +44,11 @@ public class MembershipController {
     public ResponseEntity<Object> sendMembershipRequest(@Valid @RequestBody MemberRegisterRequest request) {
         return membershipService.sendMembershipRequest(request);
     }
+
+    @PostMapping("/reenviarEmail")
+    public ResponseEntity<Object> reenviarEmail(@Valid @RequestBody RequestEmail request) {
+        return membershipService.resendEmailtoUser(request);
+    }
+    
     
 }

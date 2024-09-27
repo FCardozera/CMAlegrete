@@ -35,6 +35,30 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
+function formReenviarEmail(event) {
+    const name = document.getElementById("name-div");
+    const cpf = document.getElementById("cpf-div");
+    const rg = document.getElementById("rg-div");
+    const phoneNumber = document.getElementById("phoneNumber-div");
+    const address = document.getElementById("address-div");
+    const militaryOrganization = document.getElementById("militaryOrganization-div");
+    const info = document.getElementById("info-div");
+    const buttonEnviarAplicacao = document.getElementById("button-enviar-aplicacao");
+    const buttonReenviarEmail = document.getElementById("button-reenviar-email");
+    const formReenviarEmail = document.getElementById("form-reenviar-email");
+
+    name.style.display = "none";
+    cpf.style.display = "none";
+    rg.style.display = "none";
+    phoneNumber.style.display = "none";
+    address.style.display = "none";
+    militaryOrganization.style.display = "none";
+    info.style.display = "none";
+    formReenviarEmail.style.display = "none";
+    buttonEnviarAplicacao.style.display = "none";
+    buttonReenviarEmail.style.display = "block";
+}
+
 function validacpf(cpf) {
     cpf = cpf.replace(/\D+/g, '');
     if (cpf.length !== 11) return false;
@@ -136,6 +160,51 @@ function enviarAplicacao(event) {
         })
         .catch((error) => {
             toastr.error("Erro ao processar sua solicitação. Tente novamente.");
+            console.error(error);
+        });
+}
+
+function reenviarEmail(event) {
+    event.preventDefault();
+    console.log("validateForm function called");
+
+    let email = document.getElementById("email").value;
+
+    if (email === "") {
+        toastr.error("Por favor, preencha todos os campos para efetuar o cadastro.");
+        return false;
+    }
+
+    if (!email.includes("@") || !email.includes(".com")) {
+        toastr.error("E-mail inválido!");
+        return false;
+    }
+
+    const data = {
+        email: email
+    };
+
+    fetch("/associe/reenviarEmail", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => {
+            if (response.ok) {
+                toastr.success("Sua aplicação foi remetida com sucesso! E-mail reenviado para: " + email);
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 5000);
+            } else {
+                return response.text().then((errorText) => {
+                    toastr.error("Erro: " + errorText);
+                });
+            }
+        })
+        .catch((error) => {
+            toastr.error("Ocorreu um erro inesperado, tente novamente mais tarde!");
             console.error(error);
         });
 }
