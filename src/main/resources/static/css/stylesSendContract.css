@@ -9,7 +9,7 @@ body {
 .container {
     flex: 1;
     position: relative;
-    min-height: 70vh;
+    min-height: 75dvh;
     max-width: 600px;
     margin-top: 50px;
     

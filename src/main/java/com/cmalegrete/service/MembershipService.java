@@ -4,11 +4,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.keygen.BytesKeyGenerator;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
 
 import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
+import com.cmalegrete.dto.request.model.util.RequestEmail;
 import com.cmalegrete.exception.generic.EmailAlreadyRegisteredException;
 import com.cmalegrete.model.log.LogEnum;
 import com.cmalegrete.model.member.MemberEntity;
@@ -16,6 +18,7 @@ import com.cmalegrete.model.sendcontracttoken.SendContractTokenEntity;
 import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.service.util.UtilService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.nio.charset.StandardCharsets;
@@ -43,20 +46,45 @@ public class MembershipService extends UtilService {
         UserEntity member = createNewMember(request);
         super.userRepository.save(member);
         logMemberRegistration(member);
-
-        // Gerar o contrato com as informações fornecidas
-        byte[] contratoPdfBytes = gerarContrato(request);
-
-        if (mailEnabled) {
-            // Envia o e-mail com o contrato anexado para o novo membro
-            emailSendService.sendConfirmationEmailToUser(request, contratoPdfBytes, criarTokenContrato(member));
-        }
-
+        gerarEnviarContrato(member);
         return ResponseEntity.ok().build();
     }
 
+    public ResponseEntity<Object> resendEmailtoUser(@Valid RequestEmail request) {
+        if(!userExists(request)) {
+            return ResponseEntity.badRequest().body("E-mail não registrado!");
+        }
+        MemberEntity member = (MemberEntity)userRepository.findByEmail(request.getEmail());
+        gerarReenviarContrato(member);
+        return ResponseEntity.ok().build();
+    }
+
+    @Async
+    public void gerarReenviarContrato(UserEntity member) {
+        byte[] contratoPdfBytes = gerarContrato((MemberEntity)member);
+        try {
+            SendContractTokenEntity token = sendContractTokenRepository.findByUserId(member.getId()).get();
+
+            if (mailEnabled) {
+                emailSendService.sendConfirmationEmailToUser((MemberEntity)member, contratoPdfBytes, token.getToken());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Async
+    public void gerarEnviarContrato(UserEntity member) {
+        byte[] contratoPdfBytes = gerarContrato((MemberEntity)member);
+
+        if (mailEnabled) {
+            emailSendService.sendConfirmationEmailToUser((MemberEntity)member, contratoPdfBytes, criarTokenContrato(member));
+        }
+    }
+
     // Verifica se o usuário já está registrado
-    private void verifyIfUserExists(MemberRegisterRequest request) {
+    private void verifyIfUserExists(RequestEmail request) {
         if (super.userExists(request)) {
             throw new EmailAlreadyRegisteredException("Email registration attempt: " + request.getEmail());
         }
@@ -73,14 +101,14 @@ public class MembershipService extends UtilService {
     }
 
     // Gera o contrato em PDF com as substituições especificadas
-    private byte[] gerarContrato(MemberRegisterRequest request) {
+    private byte[] gerarContrato(MemberEntity member) {
         Map<String, String> replacements = new HashMap<>();
 
         // Substituições de texto no contrato
-        replacements.put("#NOMEMAIUSCULO#", request.getName().toUpperCase());
-        replacements.put("#NOME#", UtilService.toCapitalize(request.getName()));
-        replacements.put("#ENDERECO#", request.getAddress());
-        replacements.put("#CPF#", UtilService.formatarCpf(request.getCpf()));
+        replacements.put("#NOMEMAIUSCULO#", member.getName().toUpperCase());
+        replacements.put("#NOME#", UtilService.toCapitalize(member.getName()));
+        replacements.put("#ENDERECO#", member.getAddress());
+        replacements.put("#CPF#", UtilService.formatarCpf(member.getCpf()));
         replacements.put("#DATA#", getDataAtualPorExtenso());
 
         return documentService.replaceTextAndConvertToPdf(replacements);
