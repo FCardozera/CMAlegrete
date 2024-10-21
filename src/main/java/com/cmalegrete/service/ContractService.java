@@ -1,13 +1,23 @@
 package com.cmalegrete.service;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.crypto.keygen.BytesKeyGenerator;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Security;
 import java.security.cert.X509Certificate;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
@@ -28,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 import com.cmalegrete.dto.request.model.contract.ContractRequest;
 import com.cmalegrete.model.member.MemberEntity;
 import com.cmalegrete.model.sendcontracttoken.SendContractTokenEntity;
+import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.service.util.UtilService;
 
 @RequiredArgsConstructor
@@ -41,7 +52,10 @@ public class ContractService extends UtilService {
     @Value("${spring.mail.enable}")
     private boolean mailEnabled;
 
+    private static final BytesKeyGenerator DEFAULT_TOKEN_GENERATOR = KeyGenerators.secureRandom(15);
+
     private final EmailSendService emailSendService;
+    private final DocumentService documentService;
 
     public boolean checkUrlToken(String token) {
         return super.tokenExists(token);
@@ -58,7 +72,8 @@ public class ContractService extends UtilService {
 
         String contentType = request.getFile().get(0).getContentType();
         if (contentType == null || !contentType.equals(MediaType.APPLICATION_PDF_VALUE)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao processar arquivo, apenas .pdf são aceitos.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Erro ao processar arquivo, apenas .pdf são aceitos.");
         }
 
         try {
@@ -67,7 +82,8 @@ public class ContractService extends UtilService {
 
             List<PDSignature> signatures = document.getSignatureDictionaries();
             if (signatures.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O documento não contém assinaturas digitais.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("O documento não contém assinaturas digitais.");
             }
 
             for (PDSignature signature : signatures) {
@@ -84,13 +100,15 @@ public class ContractService extends UtilService {
                             .getCertificate(certHolder);
 
                     if (!isValidGovBrCertificate(certificate)) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A assinatura digital do contrato não é válida ou não está conforme gov.br.");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body("A assinatura digital do contrato não é válida ou não está conforme gov.br.");
                     }
 
                     Date agora = new Date();
 
                     if (certificate.getNotAfter().before(agora)) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A assinatura digital está expirada ou inválida.");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body("A assinatura digital está expirada ou inválida.");
                     }
                 }
             }
@@ -112,6 +130,71 @@ public class ContractService extends UtilService {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar o arquivo enviado.");
         }
+    }
+
+    @Async
+    public void gerarEnviarContrato(UserEntity member) {
+        byte[] contratoPdfBytes = gerarContrato((MemberEntity) member);
+
+        if (mailEnabled) {
+            emailSendService.sendConfirmationEmailToUser((MemberEntity) member, contratoPdfBytes,
+                    criarTokenContrato(member));
+        }
+    }
+
+    @Async
+    public void gerarReenviarContrato(UserEntity member) {
+        byte[] contratoPdfBytes = gerarContrato((MemberEntity)member);
+        try {
+            SendContractTokenEntity token = sendContractTokenRepository.findByUserId(member.getId()).get();
+
+            if (mailEnabled) {
+                emailSendService.sendConfirmationEmailToUser((MemberEntity)member, contratoPdfBytes, token.getToken());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Gera o contrato em PDF com as substituições especificadas
+    private byte[] gerarContrato(MemberEntity member) {
+        Map<String, String> replacements = new HashMap<>();
+
+        // Substituições de texto no contrato
+        replacements.put("#NOMEMAIUSCULO#", member.getName().toUpperCase());
+        replacements.put("#NOME#", UtilService.toCapitalize(member.getName()));
+        replacements.put("#ENDERECO#", member.getAddress());
+        replacements.put("#CPF#", UtilService.formatarCpf(member.getCpf()));
+        replacements.put("#DATA#", getDataAtualPorExtenso());
+
+        return documentService.replaceTextDOCXAndConvertToPdf(replacements);
+    }
+
+    //PARA IMPLEMENTAÇÃO FUTURA
+    private byte[] gerarCarteirinha(MemberEntity member){
+        Map<String, String> replacements = new HashMap<>();
+
+        replacements.put("#NOME#", member.getName().toUpperCase());
+        replacements.put("#VALIDADE#", getDataAtualPorExtenso()); // MUDAR AQUI A LOGICA PARA A DATA DE VALIDADE
+
+        return documentService.replaceTextPPTXAndConvertToPdf(replacements);
+    }
+
+    // Método utilitário para obter a data atual por extenso
+    private String getDataAtualPorExtenso() {
+        LocalDate dataAtual = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", Locale.of("pt", "BR"));
+        return dataAtual.format(formatter);
+    }
+
+    private String criarTokenContrato(UserEntity user) {
+        String token = new String(Base64.encodeBase64URLSafe(DEFAULT_TOKEN_GENERATOR.generateKey()),
+                StandardCharsets.US_ASCII);
+        
+        SendContractTokenEntity tokenEntity = new SendContractTokenEntity(token, user);
+        super.sendContractTokenRepository.save(tokenEntity);
+
+        return token;
     }
 
     private boolean isValidGovBrCertificate(X509Certificate certificate) {

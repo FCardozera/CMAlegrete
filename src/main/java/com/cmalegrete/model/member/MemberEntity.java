@@ -1,5 +1,8 @@
 package com.cmalegrete.model.member;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
@@ -32,6 +35,9 @@ public class MemberEntity extends UserEntity {
     @Column(nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false, unique = true)
+    private String registrationId;
+
     @Column(nullable = false)
     private String rg;
 
@@ -39,7 +45,15 @@ public class MemberEntity extends UserEntity {
     private String address;
 
     @Column(nullable = true)
+    private Date expirationDate;
+
+    @Column(nullable = true)
     private byte[] contract;
+
+    @Column(nullable = true)
+    private byte[] memberCard;
+
+    private static int memberCount = 0;
 
     public MemberEntity(MemberRegisterRequest request) {
         super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, UserStatusEnum.PENDING);
@@ -53,10 +67,14 @@ public class MemberEntity extends UserEntity {
         this.rg = request.getRg();
         this.address = request.getAddress();
         this.contract = null;
+        MemberEntity.memberCount += 1;
+        this.registrationId = generateRegistrationId();
     }
 
     public MemberEntity(MemberRegisterRequest request, UserStatusEnum status) {
         super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, status);
+        MemberEntity.memberCount += 1;
+        this.registrationId = generateRegistrationId();
     }
 
     public void update(MemberUpdateRequest request) {
@@ -88,6 +106,12 @@ public class MemberEntity extends UserEntity {
         }
 
         return value;
+    }
+
+    private String generateRegistrationId() {
+        LocalDate dataAtual = LocalDate.now();
+        String memberCountFormatado = String.format("%05d", memberCount);
+        return dataAtual.getYear() + memberCountFormatado;
     }
 
 }

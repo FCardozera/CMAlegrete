@@ -10,13 +10,16 @@ import java.util.Map;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.springframework.scheduling.annotation.Async;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFShape;
+import org.apache.poi.xslf.usermodel.XSLFTextShape;
 import org.springframework.stereotype.Service;
 
 import com.cmalegrete.service.util.UtilService;
 
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
+import com.spire.presentation.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -24,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class DocumentService extends UtilService{
 
     // Método principal que recebe os dados a serem substituídos e o nome do usuário
-    public byte[] replaceTextAndConvertToPdf(Map<String, String> replacements) {
+    public byte[] replaceTextDOCXAndConvertToPdf(Map<String, String> replacements) {
         try {
             // Carrega o template como InputStream
             InputStream templateStream = getClass().getClassLoader()
@@ -45,7 +48,7 @@ public class DocumentService extends UtilService{
                 doc.write(docOutputStream);
 
                 // Converte para PDF e retorna os bytes
-                return convertToPdf(docOutputStream.toByteArray());
+                return convertDOCXToPdf(docOutputStream.toByteArray());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -55,6 +58,53 @@ public class DocumentService extends UtilService{
             e.printStackTrace();
             return new byte[1];
         }
+    }
+
+    public byte[] replaceTextPPTXAndConvertToPdf(Map<String, String> replacements) {
+        try {
+            // Carrega o template PPTX como InputStream
+            InputStream templateStream = getClass().getClassLoader()
+                    .getResourceAsStream("docs/modelo_carteirinha.pptx");
+
+            if (templateStream == null) {
+                throw new FileNotFoundException("Template não encontrado em: docs/modelo_carteirinha.pptx");
+            }
+
+            // Carrega o documento PPTX
+            try (XMLSlideShow ppt = new XMLSlideShow(templateStream)) {
+
+                // Substitui as strings com base no Map de chaves e valores
+                replacements.forEach((originalText, updatedText) -> replaceTextInPPTX(ppt, originalText, updatedText));
+
+                // Salva o documento modificado na memória
+                ByteArrayOutputStream pptOutputStream = new ByteArrayOutputStream();
+                ppt.write(pptOutputStream);
+
+                return convertPPTXtoPDF(pptOutputStream.toByteArray());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new byte[1];
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new byte[1];
+        }
+    }
+
+    // Substitui o texto em todos os slides do PPTX
+    private void replaceTextInPPTX(XMLSlideShow ppt, String originalText, String updatedText) {
+        ppt.getSlides().forEach(slide -> {
+            for (XSLFShape shape : slide.getShapes()) {
+                if (shape instanceof XSLFTextShape) {
+                    XSLFTextShape textShape = (XSLFTextShape) shape;
+                    String text = textShape.getText();
+                    if (text != null && text.contains(originalText)) {
+                        textShape.setText(text.replace(originalText, updatedText));
+                    }
+                }
+            }
+        });
     }
 
     // Substitui o texto no documento inteiro
@@ -86,7 +136,7 @@ public class DocumentService extends UtilService{
     }
 
     // Converte o arquivo .docx para PDF usando docx4j
-    private byte[] convertToPdf(byte[] docxBytes) {
+    private byte[] convertDOCXToPdf(byte[] docxBytes) {
         try {
             ByteArrayInputStream inputDocStream = new ByteArrayInputStream(docxBytes);
             XWPFDocument doc = new XWPFDocument(inputDocStream);
@@ -95,6 +145,23 @@ public class DocumentService extends UtilService{
             PdfConverter.getInstance().convert(doc, outputPdfStream, pdfOptions);
             doc.close();
             inputDocStream.close();
+            outputPdfStream.close();
+            return outputPdfStream.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new byte[1];
+    }
+
+    // Converte o arquivo pptx usando spire
+    private byte[] convertPPTXtoPDF(byte[] pptxBytes) {
+        try {
+            ByteArrayInputStream inputPptxStream = new ByteArrayInputStream(pptxBytes);
+            Presentation pptx = new Presentation();
+            pptx.loadFromStream(inputPptxStream, FileFormat.PPTX_2019);
+            ByteArrayOutputStream outputPdfStream = new ByteArrayOutputStream();
+            pptx.saveToFile(outputPdfStream, FileFormat.PDF);
+            inputPptxStream.close();
             outputPdfStream.close();
             return outputPdfStream.toByteArray();
         } catch (Exception e) {
