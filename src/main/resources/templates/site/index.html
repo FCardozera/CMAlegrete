@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{site/fragments/head-fragment :: head('Círculo Militar de Alegrete')}"></head>
+<link href="\css\site\stylesIndex.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<body>
+    <header th:replace="~{site/fragments/header-fragment :: header('Home')}"></header>
+
+    <div class="spacer"></div>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="\images\fachada2.jpg" alt="Imagem 1"></div>
+            <div class="swiper-slide"><img src="\images\banner-fale-conosco.jpg" alt="Imagem 2"></div>
+            <div class="swiper-slide"><img src="\images\piscina.jpg" alt="Imagem 3"></div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="container">
+        <section class="hero-section">
+            <h1>Bem-vindo ao Círculo Militar de Alegrete</h1>
+            <p>Um lugar de tradição, amizade e respeito.</p>
+        </section>
+
+        <section class="about-section">
+            <h2>Sobre Nós</h2>
+            <p>O Círculo Militar de Alegrete é uma instituição que preza pela tradição e pelos valores que unem nossos
+                membros. Oferecemos uma ampla gama de atividades sociais e esportivas para todas as idades.</p>
+        </section>
+
+        <section class="services-section">
+            <h2>Nossos Serviços</h2>
+            <p>Entre os serviços que oferecemos estão espaços para eventos, atividades recreativas e muito mais. Conheça
+                tudo que o Círculo tem a oferecer!</p>
+        </section>
+    </div>
+
+    <footer th:replace="~{site/fragments/footer-fragment :: footer}"></footer>
+
+    <!-- Importando o arquivo JavaScript -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="\js\index.js"></script> <!-- Link para o arquivo JS externo -->
+
+</body>
+
+</html>

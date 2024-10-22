@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head th:replace="~{site/fragments/head-fragment :: head('Fale Conosco - CMA')}"></head>
+<link href="\css\site\stylesContactUs.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+<body>
+    <header th:replace="~{site/fragments/header-fragment :: header('Fale Conosco')}"></header>
+
+    <div class="fale-conosco-container"> 
+        <div class="fale-conosco-form">
+            <h1>Fale Conosco</h1>
+            <form>
+                <label for="name">Nome Completo</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
+    
+                
+                <label for="subject">Assunto</label>
+                <input type="text" id="subject" name="subject" required>
+                
+                <label for="message">Mensagem</label>
+                <textarea type="text" id="message" name="message" rows="5" required></textarea>
+                
+                <button type="submit" class="button-enviar-aplicacao" onclick="enviarMensagem(event)"><span>Enviar Mensagem</span></button>
+
+                <p>Responderemos o seu contato via e-mail assim que possível.</p>
+            </form>
+        </div>
+
+        <div class="fale-conosco-info">
+            <div class="fale-conosco-background"></div>
+            <div class="info-text">
+                <h2>Entre em Contato</h2>
+                <p><strong>Endereço:</strong> Av. Marechal Deodoro, 1234 - Centro</p>
+                <p><strong>Telefone:</strong> (55) 9999-9999</p>
+                <p><strong>Email:</strong> contato@clubemilitaralegrete.com</p>
+                <p><strong>Horário de Atendimento:</strong> Segunda a Sexta, das 8h às 18h</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="\js\site\contactUs.js"></script>
+
+    <footer>
+        <div th:replace="~{site/fragments/footer-fragment :: footer}"></div>
+    </footer>
+</body>
+</html>
