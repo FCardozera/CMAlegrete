@@ -1,5 +1,6 @@
 package com.cmalegrete.model.user;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -56,6 +57,12 @@ public abstract class UserEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private UserStatusEnum status;
+
+    @Column(name = "password_reset_token", unique = true)
+    private String passwordResetToken;
+
+    @Column(name = "password_reset_token_expiry")
+    private LocalDateTime passwordResetTokenExpiry;
 
     protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status) {
 
@@ -140,6 +147,23 @@ public abstract class UserEntity implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPasswordResetToken(String token, long expiryHours) {
+        this.passwordResetToken = token;
+        this.passwordResetTokenExpiry = LocalDateTime.now().plusHours(expiryHours);
+    }
+
+    public boolean isPasswordResetTokenValid(String token) {
+        return this.passwordResetToken != null &&
+               this.passwordResetToken.equals(token) &&
+               this.passwordResetTokenExpiry != null &&
+               this.passwordResetTokenExpiry.isAfter(LocalDateTime.now());
+    }
+
+    public void clearPasswordResetToken() {
+        this.passwordResetToken = null;
+        this.passwordResetTokenExpiry = null;
     }
 
 }

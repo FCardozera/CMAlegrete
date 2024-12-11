@@ -11,7 +11,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
 import com.cmalegrete.dto.request.model.util.RequestEmail;
-import com.cmalegrete.service.MembershipService;
+import com.cmalegrete.service.site.MembershipService;
 
 import jakarta.validation.Valid;
 

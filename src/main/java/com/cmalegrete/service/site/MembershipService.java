@@ -1,4 +1,4 @@
-package com.cmalegrete.service;
+package com.cmalegrete.service.site;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;

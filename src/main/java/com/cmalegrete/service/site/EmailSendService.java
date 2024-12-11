@@ -1,5 +1,6 @@
-package com.cmalegrete.service;
+package com.cmalegrete.service.site;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cmalegrete.model.log.LogEnum;
 import com.cmalegrete.model.member.MemberEntity;
+import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.service.util.UtilService;
 
 import jakarta.mail.internet.MimeMessage;
@@ -28,6 +30,12 @@ public class EmailSendService extends UtilService {
     private static final int MAX_RETRIES = 5;
     private static final long DELAY_BETWEEN_EMAILS = 4000L; // 4 segundos de intervalo
 
+    @Value("${spring.mail.username}")
+    private String remetente;
+
+    @Value("${app.reset-password-url}")
+    private String resetPasswordUrl;
+
     // Método de envio com controle de tentativas
     private void enviarComRetry(Runnable emailTask, AtomicInteger attempts) {
         emailExecutor.schedule(() -> {
@@ -41,6 +49,13 @@ public class EmailSendService extends UtilService {
                 }
             }
         }, DELAY_BETWEEN_EMAILS, TimeUnit.MILLISECONDS);
+    }
+
+    @Async
+    public void sendPasswordResetConfirmationEmailToUser(UserEntity user) {
+        String htmlMessage = generatePasswordResetMessage(user);
+
+        enviarEmailTexto(user.getEmail(), "Redefinição de Senha", htmlMessage);
     }
 
     @Async
@@ -99,6 +114,23 @@ public class EmailSendService extends UtilService {
             }
         };
         enviarComRetry(emailTask, new AtomicInteger(0));
+    }
+
+    private String generatePasswordResetMessage(UserEntity user) {
+        StringBuilder msg = new StringBuilder();
+
+        msg.append("<p>Prezado(a) ").append(user.getName()).append(",</p>")
+           .append("<p>Abaixo segue o link para a redefinição de sua senha:</p>")
+           .append(generateResetPasswordLink(user.getPasswordResetToken()))
+           .append("<p>Por favor, entre em contato conosco caso não tenha sido você que solicitou a redefinição.</p>")
+           .append("<p>Atenciosamente,<br>Equipe</p>")
+           .append("<br><p style='font-size:8;'>Este é um e-mail automático, por favor não responder.</p>");
+
+        return msg.toString();
+    }
+
+    private String generateResetPasswordLink(String token) {
+        return "<a href=\"" + resetPasswordUrl + "/" + token + "\">Clique aqui para redefinir sua senha</a>";
     }
 
     private void enviarEmailTexto(String destinatario, String assunto, String htmlMsg) {

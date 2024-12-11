@@ -1,4 +1,4 @@
-package com.cmalegrete.service;
+package com.cmalegrete.service.site;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

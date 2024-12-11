@@ -12,7 +12,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.cmalegrete.dto.request.model.util.ContactMessageRequest;
-import com.cmalegrete.service.ContactUsService;
+import com.cmalegrete.service.site.ContactUsService;
 
 @Controller
 @RequestMapping("/fale-conosco")

@@ -1,4 +1,4 @@
-package com.cmalegrete.service;
+package com.cmalegrete.service.site;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

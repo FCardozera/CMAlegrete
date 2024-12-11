@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.cmalegrete.service.ContractService;
 import com.cmalegrete.dto.request.model.contract.ContractRequest;
+import com.cmalegrete.service.site.ContractService;
 
 @Controller
-@RequestMapping("/send-contract")
+@RequestMapping("/enviar-contrato")
 public class ContractController {
 
     private final SpringTemplateEngine templateEngine;
