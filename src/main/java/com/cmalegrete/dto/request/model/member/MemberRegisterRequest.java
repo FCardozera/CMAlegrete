@@ -24,9 +24,6 @@ public class MemberRegisterRequest extends RequestEmail {
     @Size(min = 14, max = 14, message = "CPF deve ter 14 caracteres")
     private String cpf;
 
-    @NotBlank(message = "RG é obrigatório")
-    private String rg;
-
     @NotBlank(message = "Telefone é obrigatório")
     private String phoneNumber;
 

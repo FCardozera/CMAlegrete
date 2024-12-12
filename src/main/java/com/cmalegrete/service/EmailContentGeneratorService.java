@@ -23,7 +23,8 @@ public class EmailContentGeneratorService extends UtilService {
             msg.append("<strong>Organização Militar:</strong> ").append(member.getMilitaryOrganization())
                     .append("</p>");
         } else {
-            msg.append("</p>");
+            msg.append("<strong>Ex-militar/não é militar</strong> ")
+                    .append("</p>");
         }
 
         msg.append(
@@ -34,8 +35,8 @@ public class EmailContentGeneratorService extends UtilService {
                 .append("<li>Acesse o link abaixo para fazer o envio do contrato assinado:</li>")
                 .append("</ol>")
                 .append(generateContractLink(token))
-                .append("<p>Seu contrato será analisado pela nossa equipe, e você receberá um retorno em até <strong>4 dias úteis</strong>.</p>")
-                .append("<p>Caso tenha qualquer dúvida ou precise atualizar alguma das informações fornecidas, por favor, entre em contato conosco através do nosso <a href=\"https://localhost:8080\">site</a>.</p>")
+                .append("<p>Seu contrato será analisado pela nossa equipe, e você receberá um retorno em até <strong>10 dias úteis</strong>.</p>")
+                .append("<p>Caso tenha qualquer dúvida ou precise atualizar alguma das informações fornecidas, por favor, entre em contato conosco através do nosso <a href=\"https://cmalegrete.com.br\">site</a>.</p>")
                 .append("<p>Agradecemos pela confiança e estamos à disposição para qualquer esclarecimento.</p>")
                 .append("<p>Atenciosamente,<br>Equipe do Círculo Militar de Alegrete</p>")
                 .append("<br><p style='font-size:8;'>Este é um e-mail automático, por favor, não responda a esta mensagem.</p>");
@@ -58,7 +59,8 @@ public class EmailContentGeneratorService extends UtilService {
             msg.append("<strong>Organização Militar:</strong> ").append(member.getMilitaryOrganization())
                     .append("</p>");
         } else {
-            msg.append("</p>");
+            msg.append("<strong>Ex-militar/não é militar</strong> ")
+                    .append("</p>");
         }
 
         msg.append("<p>Por favor, prossigam com a análise do contrato o mais breve possível.</p>")
@@ -72,7 +74,7 @@ public class EmailContentGeneratorService extends UtilService {
 
         msg.append("<p>Prezado(a) ").append(toCapitalize(member.getName())).append(",</p>")
                 .append("<p>Confirmamos o recebimento de seu contrato assinado. Nossa equipe está analisando o documento e entraremos em contato em breve.</p>")
-                .append("<p>O prazo estimado para retorno é de até <strong>4 dias úteis</strong>. Caso tenha alguma dúvida ou precise de mais informações, sinta-se à vontade para entrar em contato conosco pelo telefone ou e-mail fornecido.</p>")
+                .append("<p>O prazo estimado para retorno é de até <strong>10 dias úteis</strong>. Caso tenha alguma dúvida ou precise de mais informações, sinta-se à vontade para entrar em contato conosco pelo telefone ou e-mail fornecido.</p>")
                 .append("<p>Agradecemos pela confiança e permanecemos à disposição.</p>")
                 .append("<p>Atenciosamente,<br>Equipe do Círculo Militar de Alegrete</p>")
                 .append("<br><p style='font-size:8;'>Este é um e-mail automático, por favor, não responda a esta mensagem.</p>");
@@ -81,7 +83,7 @@ public class EmailContentGeneratorService extends UtilService {
     }
 
     private static String generateContractLink(String token) {
-        return "<a href=http://localhost:8080/send-contract?token=" + token
+        return "<a href=http://cmalegrete.com.br/enviar-contrato?token=" + token
                 + "><strong>[Clique aqui para enviar o contrato assinado]</strong></a>";
     }
 }

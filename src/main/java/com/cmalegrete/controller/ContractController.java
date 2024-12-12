@@ -16,7 +16,7 @@ import com.cmalegrete.service.ContractService;
 import com.cmalegrete.dto.request.model.contract.ContractRequest;
 
 @Controller
-@RequestMapping("/send-contract")
+@RequestMapping("/enviar-contrato")
 public class ContractController {
 
     private final SpringTemplateEngine templateEngine;
