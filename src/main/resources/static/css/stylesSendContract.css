@@ -29,3 +29,30 @@ body {
 .upload-instructions {
     margin-bottom: 20px;
 }
+
+.toast-success {
+    width: 400px !important;
+    height: auto !important;
+    font-size: 18px !important;
+    background-color: #15b307 !important;
+    color: white !important;
+    opacity: 0.9 !important;
+}
+
+.toast-error .toast-close-button, .toast-success .toast-close-button {
+    color: white !important;
+}
+
+@media (max-width: 500px) {
+    .toast-success {
+        width: 250px !important;
+        height: auto !important;
+        font-size: 16px !important;
+    }
+
+    .toast-error {
+        width: 250px !important;
+        height: auto !important;
+        font-size: 16px !important;
+    }
+}

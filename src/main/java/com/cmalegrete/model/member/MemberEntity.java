@@ -1,5 +1,7 @@
 package com.cmalegrete.model.member;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
@@ -33,13 +35,19 @@ public class MemberEntity extends UserEntity {
     private String phoneNumber;
 
     @Column(nullable = false)
-    private String rg;
-
-    @Column(nullable = false)
     private String address;
 
     @Column(nullable = true)
     private byte[] contract;
+
+    @Column(name = "password_reset_token", unique = true)
+    private String passwordResetToken;
+
+    @Column(name = "password_reset_token_expiry")
+    private LocalDateTime passwordResetTokenExpiry;
+
+    @Column(nullable = true)
+    private byte[] memberCard;
 
     public MemberEntity(MemberRegisterRequest request) {
         super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, UserStatusEnum.PENDING);
@@ -50,7 +58,6 @@ public class MemberEntity extends UserEntity {
 
         this.phoneNumber = request.getPhoneNumber();
         this.militaryOrganization = request.getMilitaryOrganization();
-        this.rg = request.getRg();
         this.address = request.getAddress();
         this.contract = null;
     }

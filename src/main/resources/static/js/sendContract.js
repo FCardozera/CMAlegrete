@@ -1,3 +1,21 @@
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
 function sendContract(event) {
     event.preventDefault();
 
@@ -26,7 +44,7 @@ function sendContract(event) {
     }
     formData.append("token", token);
 
-    fetch("/send-contract", {
+    fetch("/enviar-contrato", {
         method: "post",
         body: formData,
     })
@@ -39,8 +57,9 @@ function sendContract(event) {
 
             // Redirecionar para a página inicial após alguns segundos
             setTimeout(() => {
+                toastr.success("Sua aplicação foi remetida com sucesso! E-mail enviado para: " + email);
                 window.location.href = "/";
-            }, 2000);
+            }, 5000);
         } else {
             throw new Error('Erro no envio do arquivo.');
         }

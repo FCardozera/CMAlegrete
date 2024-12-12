@@ -38,7 +38,6 @@ toastr.options = {
 function formReenviarEmail(event) {
     const name = document.getElementById("name-div");
     const cpf = document.getElementById("cpf-div");
-    const rg = document.getElementById("rg-div");
     const phoneNumber = document.getElementById("phoneNumber-div");
     const address = document.getElementById("address-div");
     const militaryOrganization = document.getElementById("militaryOrganization-div");
@@ -49,7 +48,6 @@ function formReenviarEmail(event) {
 
     name.style.display = "none";
     cpf.style.display = "none";
-    rg.style.display = "none";
     phoneNumber.style.display = "none";
     address.style.display = "none";
     militaryOrganization.style.display = "none";
@@ -88,7 +86,6 @@ function enviarAplicacao(event) {
     let email = document.getElementById("email").value;
     let name = document.getElementById("name").value;
     let cpf = document.getElementById("cpf").value;
-    let rg = document.getElementById("rg").value;
     let phoneNumber = document.getElementById("phoneNumber").value;
     let address = document.getElementById("address").value;
     let militaryOrganization = document.getElementById("militaryOrganization").value;
@@ -97,7 +94,6 @@ function enviarAplicacao(event) {
     if (
         name === "" ||
         cpf === "" ||
-        rg === "" ||
         email === "" ||
         phoneNumber === ""
     ) {
@@ -135,7 +131,6 @@ function enviarAplicacao(event) {
         email: email,
         name: name,
         cpf: cpf,
-        rg: rg,
         phoneNumber: phoneNumber,
         address: address,
         militaryOrganization: militaryOrganization,
