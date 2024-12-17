@@ -83,6 +83,7 @@ function enviarAplicacao(event) {
     event.preventDefault();
     console.log("validateForm function called");
 
+    const submitButton = event.target;
     let email = document.getElementById("email").value;
     let name = document.getElementById("name").value;
     let cpf = document.getElementById("cpf").value;
@@ -136,6 +137,9 @@ function enviarAplicacao(event) {
         militaryOrganization: militaryOrganization,
     };
 
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+
     fetch("/associe", {
         method: "post",
         headers: {
@@ -146,6 +150,7 @@ function enviarAplicacao(event) {
         .then((response) => {
             if (response.ok) {
                 toastr.success("Sua aplicação foi remetida com sucesso! E-mail enviado para: " + email);
+                submitButton.textContent = 'Aplicação Enviada!';
                 setTimeout(() => {
                     window.location.href = "/";
                 }, 5000);
@@ -156,6 +161,8 @@ function enviarAplicacao(event) {
         .catch((error) => {
             toastr.error("Erro ao processar sua solicitação. Tente novamente.");
             console.error(error);
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar Aplicação';
         });
 }
 
@@ -163,6 +170,7 @@ function reenviarEmail(event) {
     event.preventDefault();
     console.log("validateForm function called");
 
+    const submitButton = event.target;
     let email = document.getElementById("email").value;
 
     if (email === "") {
@@ -179,6 +187,9 @@ function reenviarEmail(event) {
         email: email
     };
 
+    submitButton.disabled = true;
+    submitButton.textContent = 'Reenviando...';
+
     fetch("/associe/reenviarEmail", {
         method: "post",
         headers: {
@@ -189,6 +200,7 @@ function reenviarEmail(event) {
         .then((response) => {
             if (response.ok) {
                 toastr.success("Sua aplicação foi remetida com sucesso! E-mail reenviado para: " + email);
+                submitButton.textContent = 'E-mail reenviado!';
                 setTimeout(() => {
                     window.location.href = "/";
                 }, 5000);
@@ -200,6 +212,8 @@ function reenviarEmail(event) {
         })
         .catch((error) => {
             toastr.error("Ocorreu um erro inesperado, tente novamente mais tarde!");
+            submitButton.disabled = true;
+            submitButton.textContent = 'Reenviar E-mail de Confirmação';
             console.error(error);
         });
 }

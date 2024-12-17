@@ -6,6 +6,10 @@ body {
     padding: 0;
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
 header {
     background-color: #002060;
     color: white;
