@@ -38,7 +38,6 @@ toastr.options = {
 function formReenviarEmail(event) {
     const name = document.getElementById("name-div");
     const cpf = document.getElementById("cpf-div");
-    const rg = document.getElementById("rg-div");
     const phoneNumber = document.getElementById("phoneNumber-div");
     const address = document.getElementById("address-div");
     const militaryOrganization = document.getElementById("militaryOrganization-div");
@@ -49,7 +48,6 @@ function formReenviarEmail(event) {
 
     name.style.display = "none";
     cpf.style.display = "none";
-    rg.style.display = "none";
     phoneNumber.style.display = "none";
     address.style.display = "none";
     militaryOrganization.style.display = "none";
@@ -85,10 +83,10 @@ function enviarAplicacao(event) {
     event.preventDefault();
     console.log("validateForm function called");
 
+    const submitButton = event.target;
     let email = document.getElementById("email").value;
     let name = document.getElementById("name").value;
     let cpf = document.getElementById("cpf").value;
-    let rg = document.getElementById("rg").value;
     let phoneNumber = document.getElementById("phoneNumber").value;
     let address = document.getElementById("address").value;
     let militaryOrganization = document.getElementById("militaryOrganization").value;
@@ -97,7 +95,6 @@ function enviarAplicacao(event) {
     if (
         name === "" ||
         cpf === "" ||
-        rg === "" ||
         email === "" ||
         phoneNumber === ""
     ) {
@@ -135,11 +132,13 @@ function enviarAplicacao(event) {
         email: email,
         name: name,
         cpf: cpf,
-        rg: rg,
         phoneNumber: phoneNumber,
         address: address,
         militaryOrganization: militaryOrganization,
     };
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
 
     fetch("/associe", {
         method: "post",
@@ -151,6 +150,7 @@ function enviarAplicacao(event) {
         .then((response) => {
             if (response.ok) {
                 toastr.success("Sua aplicação foi remetida com sucesso! E-mail enviado para: " + email);
+                submitButton.textContent = 'Aplicação Enviada!';
                 setTimeout(() => {
                     window.location.href = "/";
                 }, 5000);
@@ -161,6 +161,8 @@ function enviarAplicacao(event) {
         .catch((error) => {
             toastr.error("Erro ao processar sua solicitação. Tente novamente.");
             console.error(error);
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar Aplicação';
         });
 }
 
@@ -168,6 +170,7 @@ function reenviarEmail(event) {
     event.preventDefault();
     console.log("validateForm function called");
 
+    const submitButton = event.target;
     let email = document.getElementById("email").value;
 
     if (email === "") {
@@ -184,6 +187,9 @@ function reenviarEmail(event) {
         email: email
     };
 
+    submitButton.disabled = true;
+    submitButton.textContent = 'Reenviando...';
+
     fetch("/associe/reenviarEmail", {
         method: "post",
         headers: {
@@ -194,6 +200,7 @@ function reenviarEmail(event) {
         .then((response) => {
             if (response.ok) {
                 toastr.success("Sua aplicação foi remetida com sucesso! E-mail reenviado para: " + email);
+                submitButton.textContent = 'E-mail reenviado!';
                 setTimeout(() => {
                     window.location.href = "/";
                 }, 5000);
@@ -205,6 +212,8 @@ function reenviarEmail(event) {
         })
         .catch((error) => {
             toastr.error("Ocorreu um erro inesperado, tente novamente mais tarde!");
+            submitButton.disabled = true;
+            submitButton.textContent = 'Reenviar E-mail de Confirmação';
             console.error(error);
         });
 }

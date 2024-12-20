@@ -4,6 +4,9 @@ body {
     font-family: 'Futura Std', sans-serif;
     margin: 0;
     padding: 0;
+    color-scheme: light;
+    background: #fff;
+    color: #000;
 }
 
 .institucional {
@@ -38,9 +41,20 @@ body {
 
 .qr-code-section {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 30%;
     justify-content: center;
 }
+
+.qr-code-caption {
+    margin-top: 10px;
+    font-size: 26px;
+    color: #002060;
+    text-align: center;
+    font-weight: bold;
+}
+
 
 .qr-code-section img {
     max-height: 375px;
