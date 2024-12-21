@@ -20,12 +20,12 @@ import lombok.ToString;
 @NoArgsConstructor
 public class AdminEntity extends UserEntity {
 
-    public AdminEntity(AdminRegisterRequest request) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ADMIN, UserStatusEnum.ACTIVE);
+    public AdminEntity(AdminRegisterRequest request, String registrationId) {
+        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ADMIN, UserStatusEnum.ACTIVE, registrationId);
     }
 
-    public AdminEntity(AdminRegisterRequest request, UserStatusEnum status) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ADMIN, status);
+    public AdminEntity(AdminRegisterRequest request, UserStatusEnum status, String registrationId) {
+        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ADMIN, status, registrationId);
     }
 
     public void update(AdminUpdateRequest request) {

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,9 +62,7 @@ public abstract class UserEntity implements UserDetails {
     @Column(nullable = false, unique = true)
     private String registrationId;
 
-    private static int userCount = 0;
-
-    protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status) {
+    protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status, String registrationId) {
 
         if (nome == null || nome.isBlank()) {
             throw new MembershipException("Nome não pode ser nulo");
@@ -85,6 +84,10 @@ public abstract class UserEntity implements UserDetails {
             throw new MembershipException("Status não pode ser nula");
         }
 
+        if (registrationId == null) {
+            throw new MembershipException("Matrícula não pode ser nula");
+        }
+
         this.id = id;
         this.cpf = cpf;
         this.email = email;
@@ -93,8 +96,7 @@ public abstract class UserEntity implements UserDetails {
         this.password = new BCryptPasswordEncoder().encode(this.tempPassword);
         this.role = role;
         this.status = status;
-        UserEntity.userCount += 1;
-        this.registrationId = generateRegistrationId();
+        this.registrationId = registrationId;
     }
 
     @Override
@@ -149,11 +151,4 @@ public abstract class UserEntity implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    private String generateRegistrationId() {
-        LocalDate dataAtual = LocalDate.now();
-        String memberCountFormatado = String.format("%05d", userCount);
-        return dataAtual.getYear() + memberCountFormatado;
-    }
-
 }

@@ -1,5 +1,7 @@
 package com.cmalegrete.service;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,20 +45,28 @@ public class MembershipService extends UtilService {
         return ResponseEntity.ok().build();
     }
 
-    // Verifica se o usuário já está registrado
     private void verifyIfUserExists(RequestEmail request) {
         if (super.userExists(request)) {
             throw new EmailAlreadyRegisteredException("Email registration attempt: " + request.getEmail());
         }
     }
 
-    // Cria um novo objeto MemberEntity a partir da requisição
     private UserEntity createNewMember(MemberRegisterRequest request) {
-        return new MemberEntity(request);
+        return new MemberEntity(request, generateRegistrationId());
     }
 
-    // Registra o log da inscrição do membro
     private void logMemberRegistration(UserEntity member) {
         log(LogEnum.INFO, "Member registered: " + member.getId(), HttpStatus.CREATED.value());
+    }
+
+    private String generateRegistrationId() {
+        LocalDate dataAtual = LocalDate.now();
+        long userCount = userRepository.count();
+        if (userCount == 0) {
+            userCount += 1;
+        }
+        
+        String memberCountFormatado = String.format("%05d", userCount);
+        return dataAtual.getYear() + memberCountFormatado;
     }
 }

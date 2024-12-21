@@ -49,8 +49,8 @@ public class MemberEntity extends UserEntity {
     @Column(nullable = true)
     private byte[] memberCard;
 
-    public MemberEntity(MemberRegisterRequest request) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, UserStatusEnum.PENDING);
+    public MemberEntity(MemberRegisterRequest request, String registrationId) {
+        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, UserStatusEnum.PENDING, registrationId);
 
         if (request.getPhoneNumber() == null || request.getPhoneNumber().isBlank()) {
             throw new MembershipException("Telefone não pode ser nulo");
@@ -62,8 +62,8 @@ public class MemberEntity extends UserEntity {
         this.contract = null;
     }
 
-    public MemberEntity(MemberRegisterRequest request, UserStatusEnum status) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, status);
+    public MemberEntity(MemberRegisterRequest request, UserStatusEnum status, String registrationId) {
+        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, status, registrationId);
     }
 
     public void update(MemberUpdateRequest request) {

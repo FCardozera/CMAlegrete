@@ -79,6 +79,12 @@ function validacpf(cpf) {
     return true;
 }
 
+function capitalizeWords(input) {
+    return input
+        .toLowerCase()
+        .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
 function enviarAplicacao(event) {
     event.preventDefault();
     console.log("validateForm function called");
@@ -91,6 +97,9 @@ function enviarAplicacao(event) {
     let address = document.getElementById("address").value;
     let militaryOrganization = document.getElementById("militaryOrganization").value;
     phoneNumber = phoneNumber.replace(/\D/g, "");
+
+    name = capitalizeWords(name);
+    address = capitalizeWords(address);
 
     if (
         name === "" ||
