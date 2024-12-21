@@ -17,7 +17,7 @@ public class EmailContentGeneratorService extends UtilService {
                 .append("<br>")
                 .append("<strong>CPF:</strong> ").append(member.getCpf()).append("<br>")
                 .append("<strong>E-mail:</strong> ").append(member.getEmail()).append("<br>")
-                .append("<strong>Telefone:</strong> ").append(member.getPhoneNumber()).append("<br>");
+                .append("<strong>Telefone:</strong> ").append(formatTelefone(member.getPhoneNumber())).append("<br>");
 
         if (member.getMilitaryOrganization() != null) {
             msg.append("<strong>Organização Militar:</strong> ").append(member.getMilitaryOrganization())
@@ -53,7 +53,7 @@ public class EmailContentGeneratorService extends UtilService {
                 .append("<br>")
                 .append("<strong>CPF:</strong> ").append(member.getCpf()).append("<br>")
                 .append("<strong>E-mail:</strong> ").append(member.getEmail()).append("<br>")
-                .append("<strong>Telefone:</strong> ").append(member.getPhoneNumber()).append("<br>");
+                .append("<strong>Telefone:</strong> ").append(formatTelefone(member.getPhoneNumber())).append("<br>");
 
         if (member.getMilitaryOrganization() != null) {
             msg.append("<strong>Organização Militar:</strong> ").append(member.getMilitaryOrganization())
@@ -86,4 +86,12 @@ public class EmailContentGeneratorService extends UtilService {
         return "<a href=http://cmalegrete.com.br/enviar-contrato?token=" + token
                 + "><strong>[Clique aqui para enviar o contrato assinado]</strong></a>";
     }
+
+    private static String formatTelefone(String telefone) {
+        String codigoPais = telefone.substring(0, 2);         
+        String parte1 = telefone.substring(2, 7);      
+        String parte2 = telefone.substring(7);         
+        return String.format("(%s) %s-%s", codigoPais, parte1, parte2);
+    }
+    
 }
