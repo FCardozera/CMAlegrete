@@ -20,12 +20,12 @@ import lombok.ToString;
 @NoArgsConstructor
 public class AssistantEntity extends UserEntity {
 
-    public AssistantEntity(AssistantRegisterRequest request) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ASSISTANT, UserStatusEnum.ACTIVE);
+    public AssistantEntity(AssistantRegisterRequest request, String registrationId) {
+        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ASSISTANT, UserStatusEnum.ACTIVE, registrationId);
     }
 
-    public AssistantEntity(AssistantRegisterRequest request, UserStatusEnum status) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ASSISTANT, status);
+    public AssistantEntity(AssistantRegisterRequest request, UserStatusEnum status, String registrationId) {
+        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ASSISTANT, status, registrationId);
     }
 
     public void update(AssistantUpdateRequest request) {
