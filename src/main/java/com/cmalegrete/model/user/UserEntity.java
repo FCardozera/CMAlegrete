@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class UserEntity implements UserDetails {
+public abstract class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -63,15 +63,12 @@ public abstract class UserEntity implements UserDetails {
     @Column(nullable = false, unique = true)
     private String registrationId;
 
-    private static int userCount = 0;
-
     @Column(name = "password_reset_token", unique = true)
     private String passwordResetToken;
 
     @Column(name = "password_reset_token_expiry")
     private LocalDateTime passwordResetTokenExpiry;
 
-    protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status) {
     protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status, String registrationId) {
 
         if (nome == null || nome.isBlank()) {
@@ -107,51 +104,6 @@ public abstract class UserEntity implements UserDetails {
         this.role = role;
         this.status = status;
         this.registrationId = registrationId;
-    }
-
-    @Override
-    @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role == UserRoleEnum.ADMIN) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_ASSISTANT"),
-                    new SimpleGrantedAuthority("ROLE_MEMBER"));
-        }
-
-        if (role == UserRoleEnum.ASSISTANT) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ASSISTANT"));
-        }
-
-        return List.of(new SimpleGrantedAuthority("ROLE_MEMBER"));
-    }
-
-    @Override
-    @JsonIgnore
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isCredentialsNonExpired() {
-        return true;
     }
 
     public void expireTempPassword() {

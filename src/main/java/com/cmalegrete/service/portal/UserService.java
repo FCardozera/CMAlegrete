@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.cmalegrete.dto.request.auth.UserRecoverPasswordRequest;
@@ -21,11 +24,24 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserService {
 
+    private final JwtService jwtService;
+
+    AuthenticationManager authManager;
+
     private final UserRepository userRepository;
 
     private final EmailSendService emailSendService;
 
     private static final String USER_NOT_FOUND = "Usuário não encontrado, ID: ";
+
+    public String verify(UserEntity user) {
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getRegistrationId(), user.getPassword()));
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken(user.getRegistrationId());
+        } else {
+            return "fail";
+        }
+    }
 
     public void recoverPassword(@Valid UserRecoverPasswordRequest request) {
         try {
