@@ -1,20 +1,12 @@
 package com.cmalegrete.model.user;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cmalegrete.exception.generic.MembershipException;
 import com.cmalegrete.service.util.UtilService;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -129,5 +121,4 @@ public abstract class UserEntity {
         this.passwordResetToken = null;
         this.passwordResetTokenExpiry = null;
     }
-
 }
