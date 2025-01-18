@@ -1,8 +1,10 @@
 package com.cmalegrete.model.user;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cmalegrete.exception.generic.MembershipException;
@@ -61,6 +63,9 @@ public abstract class UserEntity {
     @Column(name = "password_reset_token_expiry")
     private LocalDateTime passwordResetTokenExpiry;
 
+    @Column(nullable = true)
+    private LocalDateTime createdDateTime;
+
     protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status, String registrationId) {
 
         if (nome == null || nome.isBlank()) {
@@ -96,6 +101,7 @@ public abstract class UserEntity {
         this.role = role;
         this.status = status;
         this.registrationId = registrationId;
+        this.createdDateTime = LocalDateTime.now();
     }
 
     public void expireTempPassword() {

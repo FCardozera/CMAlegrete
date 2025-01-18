@@ -84,5 +84,31 @@ public class UserService {
 
         return ResponseEntity.noContent().build();
     }
-}
 
+    public UserEntity getUserByRegistrationId(String registrationId) {
+        try {
+            UserEntity user = userRepository.findByRegistrationId(registrationId);
+
+            if (user == null) {
+                throw new NotFoundException(USER_NOT_FOUND + registrationId);
+            }
+
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<UserEntity> getAllMembers() {
+        return userRepository.findByRoleMember();
+    }
+
+    public List<UserEntity> getAllAdmins() {
+        return userRepository.findByRoleAdmin();
+    }
+
+    public List<UserEntity> getAllAssistants() {
+        return userRepository.findByRoleAssistant();
+    }
+}
