@@ -21,11 +21,11 @@ import lombok.ToString;
 public class AssistantEntity extends UserEntity {
 
     public AssistantEntity(AssistantRegisterRequest request, String registrationId) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ASSISTANT, UserStatusEnum.ACTIVE, registrationId);
+        super(null, request.getName(), request.getCpf(), request.getEmail(), request.getMilitaryOrganization(), UserRoleEnum.ASSISTANT, UserStatusEnum.ACTIVE, registrationId);
     }
 
     public AssistantEntity(AssistantRegisterRequest request, UserStatusEnum status, String registrationId) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ASSISTANT, status, registrationId);
+        super(null, request.getName(), request.getCpf(), request.getEmail(), request.getMilitaryOrganization(), UserRoleEnum.ASSISTANT, status, registrationId);
     }
 
     public void update(AssistantUpdateRequest request) {

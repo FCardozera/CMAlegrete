@@ -39,6 +39,8 @@ import com.cmalegrete.dto.request.model.contract.ContractRequest;
 import com.cmalegrete.model.member.MemberEntity;
 import com.cmalegrete.model.sendcontracttoken.SendContractTokenEntity;
 import com.cmalegrete.model.user.UserEntity;
+import com.cmalegrete.model.user.UserRoleEnum;
+import com.cmalegrete.model.user.UserStatusEnum;
 import com.cmalegrete.service.util.UtilService;
 
 @RequiredArgsConstructor
@@ -117,6 +119,7 @@ public class ContractService extends UtilService {
             MemberEntity member = super.memberRepository.findById(getMemberbyToken(request.getToken()).getId()).get();
             SendContractTokenEntity token = super.sendContractTokenRepository.findByToken(request.getToken()).get();
             member.setContract(pdfBytes);
+            member.setStatus(UserStatusEnum.APPROVAL_PENDING);
             super.memberRepository.save(member);
 
             if (mailEnabled) {

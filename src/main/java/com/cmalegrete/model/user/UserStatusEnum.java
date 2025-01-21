@@ -4,17 +4,21 @@ public enum UserStatusEnum {
 
     ACTIVE("ACTIVE"),
     INACTIVE("INACTIVE"),
-    PENDING("PENDING"),
-    REJECTED("REJECTED");
+    CONTRACT_PENDING("CONTRACT_PENDING"),
+    APPROVAL_PENDING("APPROVAL_PENDING"),
+    PAYMENT_PENDING("PAYMENT_PENDING"),
+    PAYMENT_LATE("PAYMENT_LATE"),
+    REJECTED("REJECTED"),
+    TEMPORARY("TEMPORARY");
 
-    private String role;
+    private String status;
 
-    UserStatusEnum (String role){
-        this.role = role;
+    UserStatusEnum (String status){
+        this.status = status;
     }
 
-    public String getRole(){
-        return role;
+    public String getStatus(){
+        return status;
     }
     
 }

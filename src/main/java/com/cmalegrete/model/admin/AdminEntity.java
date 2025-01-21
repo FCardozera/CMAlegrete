@@ -1,15 +1,21 @@
 package com.cmalegrete.model.admin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cmalegrete.dto.request.model.admin.AdminRegisterRequest;
 import com.cmalegrete.dto.request.model.admin.AdminUpdateRequest;
 import com.cmalegrete.exception.generic.UpdateException;
+import com.cmalegrete.model.dependant.DependantEntity;
 import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.model.user.UserRoleEnum;
 import com.cmalegrete.model.user.UserStatusEnum;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -21,11 +27,11 @@ import lombok.ToString;
 public class AdminEntity extends UserEntity {
 
     public AdminEntity(AdminRegisterRequest request, String registrationId) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ADMIN, UserStatusEnum.ACTIVE, registrationId);
+        super(null, request.getName(), request.getCpf(), request.getEmail(), request.getMilitaryOrganization(), UserRoleEnum.ADMIN, UserStatusEnum.PAYMENT_PENDING, registrationId);
     }
 
     public AdminEntity(AdminRegisterRequest request, UserStatusEnum status, String registrationId) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.ADMIN, status, registrationId);
+        super(null, request.getName(), request.getCpf(), request.getEmail(), request.getMilitaryOrganization(), UserRoleEnum.ADMIN, status, registrationId);
     }
 
     public void update(AdminUpdateRequest request) {

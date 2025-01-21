@@ -30,8 +30,5 @@ public class MemberRegisterRequest extends RequestEmail {
     @NotBlank(message = "Endereço é obrigatório")
     private String address;
 
-    @NotBlank(message = "Bairro é obrigatório")
     private String militaryOrganization;
-
-
 }

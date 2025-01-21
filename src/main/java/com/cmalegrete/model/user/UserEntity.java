@@ -2,14 +2,18 @@ package com.cmalegrete.model.user;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cmalegrete.exception.generic.MembershipException;
+import com.cmalegrete.model.dependant.DependantEntity;
 import com.cmalegrete.service.util.UtilService;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,7 +23,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -48,6 +52,9 @@ public abstract class UserEntity {
     @Column(nullable = true)
     private String password;
 
+    @Column(nullable = true)
+    private String militaryOrganization;
+
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
@@ -66,7 +73,10 @@ public abstract class UserEntity {
     @Column(nullable = true)
     private LocalDateTime createdDateTime;
 
-    protected UserEntity(UUID id, String nome, String cpf, String email, UserRoleEnum role, UserStatusEnum status, String registrationId) {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DependantEntity> dependants = new ArrayList<>();
+
+    protected UserEntity(UUID id, String nome, String cpf, String email, String militaryOrganization, UserRoleEnum role, UserStatusEnum status, String registrationId) {
 
         if (nome == null || nome.isBlank()) {
             throw new MembershipException("Nome não pode ser nulo");
@@ -98,6 +108,7 @@ public abstract class UserEntity {
         this.name = UtilService.toCapitalize(nome);
         this.tempPassword = UtilService.generatePassword();
         this.password = new BCryptPasswordEncoder().encode(this.tempPassword);
+        this.militaryOrganization = militaryOrganization;
         this.role = role;
         this.status = status;
         this.registrationId = registrationId;

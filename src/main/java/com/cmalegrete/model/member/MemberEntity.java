@@ -1,6 +1,7 @@
 package com.cmalegrete.model.member;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -8,12 +9,15 @@ import com.cmalegrete.dto.request.model.member.MemberRegisterRequest;
 import com.cmalegrete.dto.request.model.member.MemberUpdateRequest;
 import com.cmalegrete.exception.generic.MembershipException;
 import com.cmalegrete.exception.generic.UpdateException;
+import com.cmalegrete.model.dependant.DependantEntity;
 import com.cmalegrete.model.user.UserEntity;
 import com.cmalegrete.model.user.UserRoleEnum;
 import com.cmalegrete.model.user.UserStatusEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +32,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class MemberEntity extends UserEntity {
 
-    @Column(nullable = true)
-    private String militaryOrganization;
-
     @Column(nullable = false)
     private String phoneNumber;
 
@@ -40,30 +41,22 @@ public class MemberEntity extends UserEntity {
     @Column(nullable = true)
     private byte[] contract;
 
-    @Column(name = "password_reset_token", unique = true)
-    private String passwordResetToken;
-
-    @Column(name = "password_reset_token_expiry")
-    private LocalDateTime passwordResetTokenExpiry;
-
     @Column(nullable = true)
     private byte[] memberCard;
 
     public MemberEntity(MemberRegisterRequest request, String registrationId) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, UserStatusEnum.PENDING, registrationId);
+        super(null, request.getName(), request.getCpf(), request.getEmail(), request.getMilitaryOrganization(), UserRoleEnum.MEMBER, UserStatusEnum.CONTRACT_PENDING, registrationId);
 
         if (request.getPhoneNumber() == null || request.getPhoneNumber().isBlank()) {
             throw new MembershipException("Telefone não pode ser nulo");
         }
-
         this.phoneNumber = request.getPhoneNumber();
-        this.militaryOrganization = request.getMilitaryOrganization();
         this.address = request.getAddress();
         this.contract = null;
     }
 
     public MemberEntity(MemberRegisterRequest request, UserStatusEnum status, String registrationId) {
-        super(null, request.getName(), request.getCpf(), request.getEmail(), UserRoleEnum.MEMBER, status, registrationId);
+        super(null, request.getName(), request.getCpf(), request.getEmail(), request.getMilitaryOrganization(), UserRoleEnum.MEMBER, status, registrationId);
     }
 
     public void update(MemberUpdateRequest request) {

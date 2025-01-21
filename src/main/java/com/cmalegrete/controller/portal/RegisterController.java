@@ -4,10 +4,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cmalegrete.model.assistant.AssistantEntity;
+import com.cmalegrete.dto.request.model.admin.AdminRegisterRequest;
+import com.cmalegrete.dto.request.model.assistant.AssistantRegisterRequest;
 import com.cmalegrete.service.portal.AdminService;
 import com.cmalegrete.service.portal.AssistantService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,16 +25,12 @@ public class RegisterController {
     private final AssistantService assistantService;
 
     @PostMapping("/admin")
-    public ResponseEntity<Object> registerAdmin(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Object> registerAdmin(@Valid @RequestBody AdminRegisterRequest request) {
+        return adminService.registerAdmin(request);
     }
 
-    @PostMapping("/assistant")
-    public ResponseEntity<Object> registerAssistant(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return ResponseEntity.ok().build();
+    @PostMapping("/assistente")
+    public ResponseEntity<Object> registerAssistant(@Valid @RequestBody AssistantRegisterRequest request) {
+        return assistantService.registerAssistant(request);
     }
 }

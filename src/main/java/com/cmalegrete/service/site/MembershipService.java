@@ -62,11 +62,8 @@ public class MembershipService extends UtilService {
     private String generateRegistrationId() {
         LocalDate dataAtual = LocalDate.now();
         long userCount = userRepository.count();
-        if (userCount == 0) {
-            userCount += 1;
-        }
         
-        String memberCountFormatado = String.format("%05d", userCount);
-        return dataAtual.getYear() + memberCountFormatado;
+        String userCountFormatado = String.format("%05d", userCount);
+        return dataAtual.getYear() + userCountFormatado;
     }
 }

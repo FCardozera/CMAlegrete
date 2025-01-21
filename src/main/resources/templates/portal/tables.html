@@ -16,12 +16,14 @@
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{portal/fragments/head-fragment :: head('Portal CMA - Sócios')}"></head>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
 <body class="g-sidenav-show  bg-gray-100">
   <aside th:replace="~{portal/fragments/sidenav-fragment :: sidenav('Socios')}"></aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+      navbar-scroll="true">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
@@ -55,11 +57,14 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sócio</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CPF</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matrícula</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matrícula
+                      </th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Telefone</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Organização Militar</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Data de Associação</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">OM</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status
+                      </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Data
+                        de Associação</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
@@ -83,7 +88,8 @@
                         <p class="text-xs font-weight-bold mb-0" th:text="${member.registrationId}"></p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0" th:text="${@thymeleafUtils.formatPhoneNumber(user.phoneNumber)}"></p>
+                        <p class="text-xs font-weight-bold mb-0"
+                          th:text="${@thymeleafUtils.formatPhoneNumber(user.phoneNumber)}"></p>
                       </td>
                       <td>
                         <p class="text-xs font-weight-bold mb-0" th:text="${member.militaryOrganization}"></p>
@@ -92,21 +98,18 @@
                         <span class="badge badge-sm bg-gradient-success" th:text="${member.status}"></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold" th:text="${member.createdDateTime}"></span>
+                        <span class="text-secondary text-xs font-weight-bold"
+                          th:text="${member.createdDateTime}"></span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Editar user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                          data-original-title="Editar user">
                           Editar
                         </a>
                       </td>
                     </tr>
                   </th:block>
                 </table>
-                <div class="px-3">
-                  <form th:action="@{/logout}" method="post">
-                      <button type="submit" class="btn bg-gradient-dark mb-0 mt-3 align-middle min-width-250">ADICIONAR SÓCIO</button>
-                  </form>
-                </div>
               </div>
             </div>
           </div>
@@ -125,9 +128,13 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuário</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CPF</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matrícula</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Data de Associação</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matrícula
+                      </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">OM</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status
+                      </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Data
+                        de Associação</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
@@ -150,14 +157,19 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0" th:text="${assistant.registrationId}"></p>
                       </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0" th:text="${assistant.militaryOrganization}"></p>
+                      </td>
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-success" th:text="${assistant.status}"></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold" th:text="${assistant.createdDateTime}"></span>
+                        <span class="text-secondary text-xs font-weight-bold"
+                          th:text="${assistant.createdDateTime}"></span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Editar user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                          data-original-title="Editar user">
                           Editar
                         </a>
                       </td>
@@ -165,9 +177,8 @@
                   </th:block>
                 </table>
                 <div class="px-3">
-                  <form th:action="@{/logout}" method="post">
-                      <button type="submit" class="btn bg-gradient-dark mb-0 mt-3 align-middle min-width-250">ADICIONAR ASSISTENTE</button>
-                  </form>
+                  <button type="button" class="btn bg-gradient-dark mb-0 mt-3" data-bs-toggle="modal"
+                    data-bs-target="#addAssistantModal">ADICIONAR ASSISTENTE</button>
                 </div>
               </div>
             </div>
@@ -187,9 +198,13 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuário</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CPF</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matrícula</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Data de Associação</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matrícula
+                      </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">OM</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status
+                      </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Data
+                        de Associação</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
@@ -212,6 +227,9 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0" th:text="${admin.registrationId}"></p>
                       </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0" th:text="${admin.militaryOrganization}"></p>
+                      </td>
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-success" th:text="${admin.status}"></span>
                       </td>
@@ -219,7 +237,8 @@
                         <span class="text-secondary text-xs font-weight-bold" th:text="${admin.createdDateTime}"></span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Editar user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                          data-original-title="Editar user">
                           Editar
                         </a>
                       </td>
@@ -227,11 +246,103 @@
                   </th:block>
                 </table>
                 <div class="px-3">
-                  <form th:action="@{/logout}" method="post">
-                      <button type="submit" class="btn bg-gradient-dark mb-0 mt-3 align-middle min-width-250">ADICIONAR ADMIN</button>
-                  </form>
+                  <button type="button" class="btn bg-gradient-dark mb-0 mt-3" data-bs-toggle="modal"
+                    data-bs-target="#addAdminModal">ADICIONAR ADMIN</button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MODAL ADICIONAR ASSISTENTE -->
+      <div class="modal fade" id="addAssistantModal" tabindex="-1" aria-labelledby="addAssistantModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addAssistantModalLabel">Adicionar Assistente</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addAssistantForm">
+                <div class="mb-3">
+                  <label for="assistantName" class="form-label">Nome Completo</label>
+                  <input type="text" class="form-control" id="assistantName" name="name"
+                    placeholder="Digite o nome completo" autocomplete="name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="assistantCPF" class="form-label">CPF</label>
+                  <input type="text" class="form-control" id="assistantCPF" name="cpf" placeholder="CPF do Assistente"
+                    autocomplete="off" required>
+                </div>
+                <div class="mb-3">
+                  <label for="assistantEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="assistantEmail" placeholder="Email válido do Assistente"
+                    autocomplete="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="militaryOrganization" class="form-label">Organização Militar</label>
+                  <select class="form-select" id="assistantMilitaryOrganization" name="militaryOrganization" autocomplete="off"
+                    required>
+                    <option value="" disabled selected>Selecione a Organização Militar</option>
+                    <option value="null">Ex-militar ou não é militar</option>
+                    <option value="6° RCB">6° RCB</option>
+                    <option value="12° Cia Com Mec">12° Cia Com Mec</option>
+                    <option value="12° BE Cmb Bld">12° BE Cmb Bld</option>
+                    <option value="2° Cia E Cmb Mec">2° Cia E Cmb Mec</option>
+                    <option value="H Gu A">H Gu A</option>
+                    <option value="10° B Log">10° B Log</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn bg-gradient-dark mb-0"
+                  onclick="registrarAssistente(event)">ADICIONAR</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MODAL ADICIONAR ADMIN -->
+      <div class="modal fade" id="addAdminModal" tabindex="-1" aria-labelledby="addAdminModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addAdminModalLabel">Adicionar Administrador</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addAdminForm">
+                <div class="mb-3">
+                  <label for="adminName" class="form-label">Nome Completo</label>
+                  <input type="text" class="form-control" id="adminName" name="name"
+                    placeholder="Digite o nome completo" autocomplete="name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="adminCPF" class="form-label">CPF</label>
+                  <input type="text" class="form-control" id="adminCPF" name="cpf" placeholder="CPF do Administrador"
+                    autocomplete="off" required>
+                </div>
+                <div class="mb-3">
+                  <label for="adminEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="adminEmail" name="email"
+                    placeholder="Email válido do Administrador" autocomplete="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="militaryOrganization" class="form-label">Organização Militar</label>
+                  <select class="form-select" id="adminMilitaryOrganization" name="militaryOrganization" autocomplete="off"
+                    required>
+                    <option value="" disabled selected>Selecione a Organização Militar</option>
+                    <option value="null">Ex-militar ou não é militar</option>
+                    <option value="6° RCB">6° RCB</option>
+                    <option value="12° Cia Com Mec">12° Cia Com Mec</option>
+                    <option value="12° BE Cmb Bld">12° BE Cmb Bld</option>
+                    <option value="2° Cia E Cmb Mec">2° Cia E Cmb Mec</option>
+                    <option value="H Gu A">H Gu A</option>
+                    <option value="10° B Log">10° B Log</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn bg-gradient-dark mb-0"
+                  onclick="registrarAdmin(event)">ADICIONAR</button>
+              </form>
             </div>
           </div>
         </div>
@@ -242,7 +353,8 @@
             <div class="col-lg-6 mb-lg-0 mb-4">
               <div class="copyright text-center text-sm text-muted text-lg-start">
                 <p class="mb-0 text-secondary">
-                  Copyright © <script>
+                  Copyright ©
+                  <script>
                     document.write(new Date().getFullYear())
                   </script> Círculo Militar de Alegrete. Todos os direitos reservados.
                 </p>
@@ -256,6 +368,9 @@
       </footer>
     </div>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/portal/tables.js"></script>
   <script src="js/portal/core/popper.min.js"></script>
   <script src="js/portal/core/bootstrap.min.js"></script>
   <script src="js/portal/plugins/perfect-scrollbar.min.js"></script>
@@ -268,6 +383,15 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+  </script>
+  <script>
+    document.querySelectorAll('.btn.bg-gradient-dark').forEach(button => {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        var modal = new bootstrap.Modal(document.getElementById('addUserModal'));
+        modal.show();
+      });
+    });
   </script>
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <script src="js/portal/soft-ui-dashboard.min.js?v=1.0.7"></script>
